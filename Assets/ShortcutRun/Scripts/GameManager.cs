@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public GameObject player;
     public bool gameStart;
     public bool dead;
 

@@ -43,6 +43,8 @@ public class PlayerCollisions : MonoBehaviour
 
             GameObject fx = Instantiate(GameManager.instance.stackFX, new Vector3(stackPos.transform.position.x, stackPos.transform.position.y + 0.15f * curStackCount, stackPos.transform.position.z), Quaternion.identity);
             Destroy(fx, 1f);
+
+            UIManager.instance.txtLogCount.text = curStackCount.ToString();
         }
         if (other.gameObject.CompareTag("water"))
         {
