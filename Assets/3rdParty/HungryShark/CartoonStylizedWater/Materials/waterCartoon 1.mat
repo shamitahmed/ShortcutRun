@@ -140,9 +140,9 @@ Material:
     - _WaveSpeed: 3.2210715
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 0.7019608}
+    - _Color: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 0.6}
     - _DiffuseColor: {r: 1, g: 0, b: 0, a: 1}
-    - _EmissionColor: {r: 0, g: 0.7291898, b: 0.8490566, a: 1}
+    - _EmissionColor: {r: 0, g: 0.6742352, b: 0.8509804, a: 1}
     - _LineColor: {r: 0, g: 0.3379314, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _Scale: {r: 1, g: 1, b: 1, a: 1}
