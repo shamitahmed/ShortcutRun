@@ -9,10 +9,16 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public bool gameStart;
+    public bool dead;
+
     [Header("Stacking")]
     public GameObject logPickupObj;
     public GameObject logStackObj;
-    
+    public GameObject stackFX;
+    [Header("FX")]
+    public GameObject splashFX;
+    public GameObject confettiFX;
 
 
     private void Awake()
@@ -25,9 +31,4 @@ public class GameManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

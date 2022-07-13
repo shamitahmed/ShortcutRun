@@ -41,23 +41,26 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         //if game start
-        move = true;
-        anim.SetBool("run", true);
-
-        if (move)
+        if (!GameManager.instance.dead)
         {
-            deviation = targetDirection * speed * Time.fixedDeltaTime;
-            rb.MovePosition(rb.position + deviation);
+            move = true;
+            anim.SetBool("run", true);
 
-            if (targetDirection != Vector3.zero)
+            if (move)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-                if (transform.rotation != targetRotation)
+                deviation = targetDirection * speed * Time.fixedDeltaTime;
+                rb.MovePosition(rb.position + deviation);
+
+                if (targetDirection != Vector3.zero)
                 {
-                    rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotationSmoothing));
+                    Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+                    if (transform.rotation != targetRotation)
+                    {
+                        rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotationSmoothing));
+                    }
                 }
+
             }
-            
         }
     }
 

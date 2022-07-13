@@ -30,10 +30,14 @@ public class CameraController : MonoBehaviour
             isTargetFound = true;
         }
 
-        Vector3 desiredPosition = target.transform.position + offset;
-        Vector3 smoothedPosition = Vector3.Lerp(desiredPosition, transform.position, smoothFactor * Time.deltaTime);
-        transform.position = smoothedPosition;
-        //transform.rotation = target.rotation;
-        //transform.LookAt(target);
+        if (!GameManager.instance.dead)
+        {
+            Vector3 desiredPosition = target.transform.position + offset;
+            Vector3 smoothedPosition = Vector3.Lerp(desiredPosition, transform.position, smoothFactor * Time.deltaTime);
+            transform.position = smoothedPosition;
+            //transform.rotation = target.rotation;
+            //transform.LookAt(target);
+        }
+
     }
 }
