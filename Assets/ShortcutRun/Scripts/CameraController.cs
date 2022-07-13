@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
         if (!GameManager.instance.dead)
         {
             Vector3 desiredPosition = target.transform.position + offset;
-            Vector3 smoothedPosition = Vector3.Lerp(desiredPosition, transform.position, smoothFactor * Time.deltaTime);
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothFactor * Time.deltaTime);
             transform.position = smoothedPosition;
             //transform.rotation = target.rotation;
             //transform.LookAt(target);

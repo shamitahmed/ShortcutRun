@@ -34,7 +34,7 @@ public class PlayerCollisions : MonoBehaviour
         if (canPlaceLog && !GameManager.instance.dead)
         {
             logSpawnDelay += Time.deltaTime;
-            if(logSpawnDelay >= 0.225f)
+            if(logSpawnDelay >= 0.125f)
                 PlaceLog();
         }
     }
@@ -60,6 +60,7 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (other.gameObject.CompareTag("water") && !GameManager.instance.dead)
         {
+            Camera.main.transform.parent = null;
             GameManager.instance.dead = true;
             GameObject fx = Instantiate(GameManager.instance.splashFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), GameManager.instance.splashFX.transform.rotation);
             Destroy(fx, 1f);
@@ -85,6 +86,11 @@ public class PlayerCollisions : MonoBehaviour
             jumping = false;
             transform.GetComponent<PlayerMovement>().anim.SetBool("jump", false);
             canPlaceLog = false;
+            transform.GetComponent<PlayerMovement>().speed = 6;
+        }
+        if (other.gameObject.CompareTag("logPlaced"))
+        {
+            transform.GetComponent<PlayerMovement>().speed = 11;
         }
     }
     private void OnCollisionExit(Collision other)
@@ -112,6 +118,8 @@ public class PlayerCollisions : MonoBehaviour
             Destroy(logs[curStackCount - 1]);
             logs.RemoveAt(curStackCount - 1);
             curStackCount--;
+            GameObject fx = Instantiate(GameManager.instance.stackFX, go.transform.position, Quaternion.identity);
+            Destroy(fx, 1f);
             //transform.GetComponent<PlayerMovement>().anim.SetTrigger("place");
 
             logSpawnDelay = 0;

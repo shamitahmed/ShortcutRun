@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 6f;
-    public float walkSpeed = 3f;
     public float runSpeed = 8f;
     [Range(0f, 1f)]
     public float movemenetSmoothing = .5f;
@@ -83,10 +82,8 @@ public class PlayerMovement : MonoBehaviour
 
             if (currentDragDistance > maxDragDistance)
             {
-                //mouseStartPos = mouseCurrentPos - moveDirection * maxDragDistance;
-                speed = runSpeed;
+                //speed = runSpeed;
                 anim.SetBool("run", true);
-                //footstepAudioThresold = 0.3f;
             }
             else
             {
@@ -96,10 +93,10 @@ public class PlayerMovement : MonoBehaviour
             moveDirection = (mouseCurrentPos - mouseStartPos).normalized;
             targetDirection = new Vector3(moveDirection.x, 0, moveDirection.y);
         }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            move = false;
-            anim.SetBool("run", false);
-        }
+        //else if (Input.GetMouseButtonUp(0))
+        //{
+        //    move = false;
+        //    anim.SetBool("run", false);
+        //}
     }
 }
