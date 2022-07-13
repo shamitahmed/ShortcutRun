@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [Header("Stacking")]
     public GameObject logPickupObj;
     public GameObject logStackObj;
-    public int curStackCount;
+    
 
 
     private void Awake()
