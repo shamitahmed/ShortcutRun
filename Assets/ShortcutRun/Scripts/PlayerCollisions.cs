@@ -60,13 +60,9 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (other.gameObject.CompareTag("water") && !GameManager.instance.dead)
         {
-            
-
-
-            //GameManager.instance.dead = true;
-            //GameObject fx = Instantiate(GameManager.instance.splashFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), GameManager.instance.splashFX.transform.rotation);
-            //Destroy(fx, 1f);
-
+            GameManager.instance.dead = true;
+            GameObject fx = Instantiate(GameManager.instance.splashFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), GameManager.instance.splashFX.transform.rotation);
+            Destroy(fx, 1f);
 
         }
     }
@@ -109,14 +105,21 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (curStackCount > 0)
         {
-            GameObject go = Instantiate(GameManager.instance.logPlaceObj, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.3f), Quaternion.identity);
+            GameObject go = Instantiate(GameManager.instance.logPlaceObj, new Vector3(transform.position.x, 0f, transform.position.z + 0.3f), Quaternion.identity);
             go.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
-            //go.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 0.2f);
+            go.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 0.2f);
             Destroy(logs[curStackCount - 1]);
             logs.RemoveAt(curStackCount - 1);
             curStackCount--;
            
             logSpawnDelay = 0;
+            if(curStackCount <= 0)
+            {
+                transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2, LoopType.Yoyo);
+                jumping = true;
+                transform.GetComponent<PlayerMovement>().anim.SetBool("carry", false);
+                transform.GetComponent<PlayerMovement>().anim.SetBool("jump", true);
+            }
         }
     }
 }
