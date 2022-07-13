@@ -106,6 +106,7 @@ public class PlayerCollisions : MonoBehaviour
         if (curStackCount > 0)
         {
             GameObject go = Instantiate(GameManager.instance.logPlaceObj, new Vector3(transform.position.x, 0f, transform.position.z + 0.3f), transform.rotation);
+            go.transform.DOMoveY(go.transform.position.y - 0.1f, 0.05f);
             //go.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
             go.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 0.2f);
             Destroy(logs[curStackCount - 1]);
