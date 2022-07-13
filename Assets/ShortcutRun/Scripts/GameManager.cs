@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     [Header("Stacking")]
     public GameObject logPickupObj;
     public GameObject logStackObj;
+    public GameObject logPlaceObj;
+
     public GameObject stackFX;
     [Header("FX")]
     public GameObject splashFX;
