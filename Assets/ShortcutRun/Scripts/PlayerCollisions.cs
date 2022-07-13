@@ -31,10 +31,10 @@ public class PlayerCollisions : MonoBehaviour
         {
             transform.position += transform.forward * Time.deltaTime * 8f;
         }
-        if (canPlaceLog)
+        if (canPlaceLog && !GameManager.instance.dead)
         {
             logSpawnDelay += Time.deltaTime;
-            if(logSpawnDelay >= 0.2f)
+            if(logSpawnDelay >= 0.225f)
                 PlaceLog();
         }
     }
@@ -89,7 +89,7 @@ public class PlayerCollisions : MonoBehaviour
     }
     private void OnCollisionExit(Collision other)
     {
-        if (other.gameObject.CompareTag("ground") && curStackCount <= 0)
+        if (other.gameObject.CompareTag("ground") && curStackCount <= 0 && !GameManager.instance.dead)
         {
             transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2,LoopType.Yoyo);
             jumping = true;
@@ -105,13 +105,14 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (curStackCount > 0)
         {
-            GameObject go = Instantiate(GameManager.instance.logPlaceObj, new Vector3(transform.position.x, 0f, transform.position.z + 0.3f), Quaternion.identity);
-            go.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
+            GameObject go = Instantiate(GameManager.instance.logPlaceObj, new Vector3(transform.position.x, 0f, transform.position.z + 0.3f), transform.rotation);
+            //go.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
             go.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 0.2f);
             Destroy(logs[curStackCount - 1]);
             logs.RemoveAt(curStackCount - 1);
             curStackCount--;
-           
+            //transform.GetComponent<PlayerMovement>().anim.SetTrigger("place");
+
             logSpawnDelay = 0;
             if(curStackCount <= 0)
             {
