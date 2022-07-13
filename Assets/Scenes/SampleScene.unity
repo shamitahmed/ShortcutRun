@@ -521,6 +521,7 @@ GameObject:
   - component: {fileID: 777850876}
   - component: {fileID: 777850877}
   - component: {fileID: 777850878}
+  - component: {fileID: 777850879}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -555,6 +556,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe34807dbc7fb14f83fad1b0313b7ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 5
+  walkSpeed: 5
+  runSpeed: 5
+  movemenetSmoothing: 0.75
+  rotationSmoothing: 0.5
+  maxDragDistance: 100
+  move: 0
+  rb: {fileID: 0}
+  anim: {fileID: 0}
 --- !u!65 &777850878
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -568,6 +578,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.4519825, y: 1.9575577, z: 0.37680784}
   m_Center: {x: 0.27400875, y: 0.89761496, z: 0.035599038}
+--- !u!54 &777850879
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777850875}
+  serializedVersion: 2
+  m_Mass: 500
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 2
 --- !u!1 &809841934
 GameObject:
   m_ObjectHideFlags: 0
@@ -793,6 +819,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6725a8689bac2104cb647e1a3cd805f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 777850876}
+  offset: {x: 0, y: 10, z: -12}
+  smoothFactor: 0
 --- !u!1 &1066358117
 GameObject:
   m_ObjectHideFlags: 0
