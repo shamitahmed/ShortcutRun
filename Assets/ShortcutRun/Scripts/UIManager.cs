@@ -45,6 +45,7 @@ public class UIManager : MonoBehaviour
     public void BtnStart()
     {
         panelStart.SetActive(false);
+        
         StartCoroutine(StartRoutine());
     }
     public void BtnRetryCallback()
