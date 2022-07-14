@@ -39,7 +39,7 @@ namespace PathCreation.Examples
         void OnPathChanged() {
             distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
         }
-        void GetBotInitPositions()
+        public void GetBotInitPositions()
         {
             if (GetComponent<PlayerCollisions>().botID == 0)
             {

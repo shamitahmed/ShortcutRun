@@ -1175,7 +1175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &840601708365764964
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1577,7 +1577,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 840601708596569261}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.2530088, y: -1.3507463, z: -0.95489883}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1610,6 +1610,7 @@ MonoBehaviour:
   logSpawnDelay: 0
   logs: []
   botDeath: 0
+  botID: 0
 --- !u!65 &840601708596569263
 BoxCollider:
   m_ObjectHideFlags: 0
