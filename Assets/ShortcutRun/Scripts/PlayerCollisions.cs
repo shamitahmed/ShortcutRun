@@ -21,7 +21,7 @@ public class PlayerCollisions : MonoBehaviour
     public float logSpawnDelay;
     public List<GameObject> logs;
     public bool botDeath;
-
+    public int botID;
 
     // Start is called before the first frame update
     void Start()

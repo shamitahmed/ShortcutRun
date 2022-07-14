@@ -16,8 +16,8 @@ namespace PathCreation.Examples
             {
                 // Subscribed to the pathUpdated event so that we're notified if the path changes during the game
                 pathCreator.pathUpdated += OnPathChanged;
-                transform.position = pathCreator.path.GetPointAtDistance(13f);
-                distanceTravelled = 13f;
+                GetBotInitPositions();
+
             }
            
         }
@@ -38,6 +38,22 @@ namespace PathCreation.Examples
         // is as close as possible to its position on the old path
         void OnPathChanged() {
             distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
+        }
+        void GetBotInitPositions()
+        {
+            if (GetComponent<PlayerCollisions>().botID == 0)
+            {
+                transform.position = pathCreator.path.GetPointAtDistance(14f);
+                transform.position = new Vector3(2.253009f, transform.position.y, transform.position.z);
+                distanceTravelled = 14f;
+            }
+            else if (GetComponent<PlayerCollisions>().botID == 1)
+            {
+                transform.position = pathCreator.path.GetPointAtDistance(19f);
+                transform.position = new Vector3(-1.65f, transform.position.y, transform.position.z);
+                distanceTravelled = 19f;
+
+            }
         }
     }
 }
