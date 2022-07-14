@@ -35,7 +35,7 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (jumping)
         {
-            transform.position += transform.forward * Time.deltaTime * 8f;
+            transform.position += transform.forward * Time.deltaTime * 7f;
         }
         if (bouncing)
         {
@@ -81,18 +81,18 @@ public class PlayerCollisions : MonoBehaviour
                 {
                     UIManager.instance.txtLogCount.transform.DOScale(new Vector3(-1f, 1f, 1f), 0.05f);
                 });
-                //UIManager.instance.txtLogCount.transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0.2f), 0.1f);
-                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.1f,0.1f).OnComplete(() =>
-                {
 
-                });
-                
-                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.015f * curStackCount, 0.1f).SetDelay(2).OnComplete(()=>
+                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.1f,0.1f).SetDelay(2).OnComplete(() =>
                 {
-                    UIManager.instance.txtLogCount.DOFade(1f, 0.1f);
                     newStackCount = 0;
                     UIManager.instance.txtLogCount.transform.gameObject.SetActive(false);
                 });
+                
+                //UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.015f * curStackCount, 0.1f).SetDelay(2).OnComplete(()=>
+                //{
+                //    UIManager.instance.txtLogCount.DOFade(1f, 0.1f);
+                    
+                //});
             }
         }
         if (other.gameObject.CompareTag("water") && !GameManager.instance.dead)
@@ -207,7 +207,7 @@ public class PlayerCollisions : MonoBehaviour
 
             if (playerType == PlayerType.human)
             {
-                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y - 0.005f * curStackCount, 0.1f);
+                //UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y - 0.005f * curStackCount, 0.1f);
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.logPlaceSFX);
             }
                 

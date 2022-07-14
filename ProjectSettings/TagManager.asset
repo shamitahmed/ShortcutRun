@@ -9,6 +9,7 @@ TagManager:
   - ground
   - logPlaced
   - bounce
+  - finish
   layers:
   - Default
   - TransparentFX
