@@ -15,7 +15,11 @@ public class UIManager : MonoBehaviour
     public GameObject panelGameOver;
     public GameObject panelCoin;
     public TextMeshProUGUI txtLogCount;
-    
+
+    public Button btnStart;
+    public Button btnRetry;
+
+
     private void Awake()
     {
         instance = this;
@@ -23,11 +27,20 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        btnStart.onClick.AddListener(() => BtnStart());
+        btnRetry.onClick.AddListener(() => BtnRetryCallback());
     }
     private void FixedUpdate()
     {
         txtLogCount.transform.LookAt(Camera.main.transform);
     }
-
+    public void BtnStart()
+    {
+        panelStart.SetActive(false);
+        GameManager.instance.gameStart = true;
+    }
+    public void BtnRetryCallback()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
 }

@@ -70,7 +70,7 @@ public class PlayerCollisions : MonoBehaviour
             GameManager.instance.dead = true;
             GameObject fx = Instantiate(GameManager.instance.splashFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), GameManager.instance.splashFX.transform.rotation);
             Destroy(fx, 1f);
-
+            UIManager.instance.panelGameOver.SetActive(true);
         }
         if (other.gameObject.CompareTag("bounce") && !GameManager.instance.dead)
         {

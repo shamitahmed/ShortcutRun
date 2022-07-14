@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        //if (!GameManager.instance.startGame) return;
+        if (!GameManager.instance.gameStart) return;
 
         HandlePlayerInput();
     }
@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         //if game start
-        if (!GameManager.instance.dead)
+        if (!GameManager.instance.dead && GameManager.instance.gameStart)
         {
             move = true;
             anim.SetBool("run", true);
