@@ -67,6 +67,8 @@ public class UIManager : MonoBehaviour
         GameManager.instance.gameStart = true;
         GameManager.instance.player.GetComponent<PlayerMovement>().targetDirection = Vector3.forward;
 
+        //BotManager.instance.bots[0].transform.position = PathCreation.pathCreator.path.GetPointAtDistance(13f);
+
         yield return new WaitForSeconds(1f);
         txtStartCount.gameObject.SetActive(false);
 
