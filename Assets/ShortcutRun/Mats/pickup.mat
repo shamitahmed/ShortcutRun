@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pickup
-  m_Shader: {fileID: 4800000, guid: ccfc7d68845db8341944b3091b59be55, type: 3}
-  m_ShaderKeywords: TCP2_ZSMOOTH_ON
+  m_Shader: {fileID: 4800000, guid: dd496457a855aa341b0d7b7b475a7a3a, type: 3}
+  m_ShaderKeywords: OUTLINES TCP2_ZSMOOTH_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -71,7 +71,7 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Offset1: -15
+    - _Offset1: -5
     - _Offset2: 0
     - _Outline: 1
     - _Parallax: 0.02
@@ -86,9 +86,9 @@ Material:
     - _ZSmooth: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.6415094, g: 0.32871127, b: 0.15432537, a: 1}
+    - _Color: {r: 0.8018868, g: 0.41213953, b: 0.19290671, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HColor: {r: 0.785, g: 0.785, b: 0.785, a: 1}
+    - _HColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SColor: {r: 0.195, g: 0.195, b: 0.195, a: 1}
+    - _SColor: {r: 0.509434, g: 0.16265061, b: 0, a: 1}
   m_BuildTextureStacks: []
