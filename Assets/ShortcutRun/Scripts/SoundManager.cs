@@ -21,6 +21,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip logPickSFX;
     public AudioClip logPlaceSFX;
     public AudioClip jumpSFX;
+    public AudioClip landSFX;
 
 
     private void Awake()

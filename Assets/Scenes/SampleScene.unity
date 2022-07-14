@@ -5627,16 +5627,17 @@ MonoBehaviour:
   sfxAuidoSource: {fileID: 0}
   bgMusicIngame: {fileID: 0}
   collisionSFX: []
-  splashSFX: {fileID: 0}
+  splashSFX: {fileID: 8300000, guid: 4a8c89d8f35c3e24bb94cb288b97e43b, type: 3}
   buttonTapSFX: {fileID: 0}
-  tapStartSFX: {fileID: 0}
-  coinSFX: {fileID: 0}
-  bounceSFX: {fileID: 0}
-  winSFX: {fileID: 0}
-  loseSFX: {fileID: 0}
-  logPickSFX: {fileID: 0}
-  logPlaceSFX: {fileID: 0}
-  jumpSFX: {fileID: 0}
+  tapStartSFX: {fileID: 8300000, guid: f07dc20c0ae7d014ca41c3635e142deb, type: 3}
+  coinSFX: {fileID: 8300000, guid: 43a19bb4969d87247bdf902a5223f56b, type: 3}
+  bounceSFX: {fileID: 8300000, guid: 0ad22edcb2c6c01438bcaf5279cadd6c, type: 3}
+  winSFX: {fileID: 8300000, guid: c3526e91c3568b24d8ef288f4ed0498a, type: 3}
+  loseSFX: {fileID: 8300000, guid: ad31e1260dd4bcc45b7c36a53a0db5b8, type: 3}
+  logPickSFX: {fileID: 8300000, guid: 95384c4970c25234e93ef31e36fae37a, type: 3}
+  logPlaceSFX: {fileID: 8300000, guid: 281091f6c1f71664eb87ed59e86b351f, type: 3}
+  jumpSFX: {fileID: 8300000, guid: 0ad22edcb2c6c01438bcaf5279cadd6c, type: 3}
+  landSFX: {fileID: 8300000, guid: bcfbac37002724c48828db94ece34291, type: 3}
 --- !u!82 &709164215
 AudioSource:
   m_ObjectHideFlags: 0

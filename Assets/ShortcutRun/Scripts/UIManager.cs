@@ -67,6 +67,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         txtStartCount.text = "GO!";
         txtStartCount.transform.DOPunchScale(new Vector3(0.6f, 0.6f, 0.6f), 0.2f);
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.tapStartSFX);
 
         GameManager.instance.gameStart = true;
         GameManager.instance.player.GetComponent<PlayerMovement>().targetDirection = Vector3.forward;

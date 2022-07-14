@@ -73,6 +73,7 @@ public class PlayerCollisions : MonoBehaviour
 
             if (playerType == PlayerType.human)
             {
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.logPickSFX);
                 UIManager.instance.txtLogCount.transform.gameObject.SetActive(true);
                 newStackCount++;
                 UIManager.instance.txtLogCount.text = "+" + newStackCount.ToString();
@@ -104,14 +105,15 @@ public class PlayerCollisions : MonoBehaviour
                 canPlaceLog = true;
                 logSpawnDelay = 0.125f;
             }            
-            else
+            else//DEATH
             {
                 if (playerType == PlayerType.human)
                 {
+                    SoundManager.Instance.PlaySFX(SoundManager.Instance.splashSFX);
                     Camera.main.transform.parent = null;
                     GameManager.instance.dead = true;
                     UIManager.instance.panelGame.SetActive(false);
-                    UIManager.instance.panelGameOver.SetActive(true);
+                    StartCoroutine(DeathRoutine());             
                 }
                 if (playerType == PlayerType.bot)
                 {
@@ -132,6 +134,8 @@ public class PlayerCollisions : MonoBehaviour
             grounded = false;
             bouncing = true;
             windFx.SetActive(false);
+            if (playerType == PlayerType.human)
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.bounceSFX);
         }
     }
     private void OnTriggerStay(Collider other)
@@ -158,6 +162,8 @@ public class PlayerCollisions : MonoBehaviour
             transform.GetComponent<PlayerMovement>().speed = 6;
             bouncing = false;
             windFx.SetActive(false);
+            if (playerType == PlayerType.human)
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.landSFX);
         }
         if (other.gameObject.CompareTag("logPlaced"))
         {
@@ -169,6 +175,8 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (other.gameObject.CompareTag("ground") && curStackCount <= 0 && !GameManager.instance.dead)
         {
+            if (playerType == PlayerType.human)
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.jumpSFX);
             transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2,LoopType.Yoyo);
             jumping = true;
             transform.GetComponent<PlayerMovement>().anim.SetBool("jump", true);
@@ -200,6 +208,7 @@ public class PlayerCollisions : MonoBehaviour
             if (playerType == PlayerType.human)
             {
                 UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y - 0.005f * curStackCount, 0.1f);
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.logPlaceSFX);
             }
                 
             GameObject fx = Instantiate(GameManager.instance.stackFX, go.transform.position, Quaternion.identity);
@@ -210,6 +219,8 @@ public class PlayerCollisions : MonoBehaviour
             logSpawnDelay = 0;
             if(curStackCount <= 0)
             {
+                if (playerType == PlayerType.human)
+                    SoundManager.Instance.PlaySFX(SoundManager.Instance.jumpSFX);
                 windFx.SetActive(false);
                 transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2, LoopType.Yoyo);
                 jumping = true;
@@ -219,5 +230,12 @@ public class PlayerCollisions : MonoBehaviour
                 transform.GetComponent<PlayerMovement>().speed = 6;
             }
         }
+    }
+    public IEnumerator DeathRoutine()
+    {
+
+        yield return new WaitForSeconds(1.5f);
+        UIManager.instance.panelGameOver.SetActive(true);
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.loseSFX);
     }
 }
