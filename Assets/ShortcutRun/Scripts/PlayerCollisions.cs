@@ -34,8 +34,8 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (bouncing)
         {
-            transform.position += transform.forward * Time.deltaTime * 20f;
-            transform.position += Vector3.up * Time.deltaTime * 10f;
+            transform.position += transform.forward * Time.deltaTime * 10f;
+            transform.position += Vector3.up * Time.deltaTime * 20f;
         }
         if (canPlaceLog && !GameManager.instance.dead && !bouncing)
         {
