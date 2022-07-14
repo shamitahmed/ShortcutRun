@@ -10,6 +10,7 @@ TagManager:
   - logPlaced
   - bounce
   - finish
+  - endpod
   layers:
   - Default
   - TransparentFX

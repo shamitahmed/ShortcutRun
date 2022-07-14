@@ -139,10 +139,18 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (other.gameObject.CompareTag("finish") && !GameManager.instance.dead)
         {
-            if (playerType == PlayerType.human)
+            if (playerType == PlayerType.human && !GameManager.instance.finishCrossed)
             {
                 StartCoroutine(GameManager.instance.EndBonusPods());
+                GameManager.instance.finishCrossed = true;
             }
+        }
+        if (other.gameObject.CompareTag("endpod") && !GameManager.instance.dead)
+        {
+            //stop player control
+
+            //give bonus
+
         }
     }
     private void OnTriggerStay(Collider other)

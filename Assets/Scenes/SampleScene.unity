@@ -620,6 +620,7 @@ MonoBehaviour:
   player: {fileID: 777850875}
   gameStart: 0
   dead: 0
+  finishCrossed: 0
   logPickupObj: {fileID: 101872191852953076, guid: 05d57fabc877ffd4c9b0979d38680bef,
     type: 3}
   logStackObj: {fileID: 3861314505939364207, guid: fcecc347e9060f74381fc2f9e4257cb6,
@@ -634,6 +635,13 @@ MonoBehaviour:
   endPlatform: {fileID: 7519464528340833286, guid: 94b1feceeed516447b04131bfbe50898,
     type: 3}
   finishLine: {fileID: 903154780}
+  podMats:
+  - {fileID: 2100000, guid: 84384a1ba3e5d4e45a7288724c096ed6, type: 2}
+  - {fileID: 2100000, guid: 58c6be209423e3840acfeeb4b8ba59fb, type: 2}
+  - {fileID: 2100000, guid: bd7cf2d29f73a824bb627e1b3c21962d, type: 2}
+  - {fileID: 2100000, guid: c3e65f8d97bbfbd4eb4e6d42a255401a, type: 2}
+  - {fileID: 2100000, guid: 22ec6d329b4a3f445a571c9ea7ccb19d, type: 2}
+  - {fileID: 2100000, guid: fbf400932f86a7f409c5d9be359e27a2, type: 2}
 --- !u!1001 &26498105
 PrefabInstance:
   m_ObjectHideFlags: 0

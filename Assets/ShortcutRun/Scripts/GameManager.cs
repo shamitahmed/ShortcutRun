@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public bool gameStart;
     public bool dead;
+    public bool finishCrossed;
 
     [Header("Stacking")]
     public GameObject logPickupObj;
@@ -25,7 +27,7 @@ public class GameManager : MonoBehaviour
     [Header("End Bonus")]
     public GameObject endPlatform;
     public GameObject finishLine;
-
+    public Material[] podMats;
 
 
     private void Awake()
@@ -43,8 +45,9 @@ public class GameManager : MonoBehaviour
         {
             //spawn
             yield return new WaitForSeconds(0.2f);
-            GameObject go = Instantiate(endPlatform, new Vector3(finishLine.transform.position.x, endPlatform.transform.position.y, finishLine.transform.position.z + 10f * (i + 1)), Quaternion.identity);
-
+            GameObject go = Instantiate(endPlatform, new Vector3(finishLine.transform.position.x + Random.Range(-10,10), endPlatform.transform.position.y, finishLine.transform.position.z + 10f * (i + 1)), Quaternion.identity);
+            go.GetComponent<MeshRenderer>().material = podMats[Random.Range(0, podMats.Length)];
+            go.transform.GetChild(0).GetComponent<TextMeshPro>().text = "X" + (i + 1).ToString();
         }
     }
 }
