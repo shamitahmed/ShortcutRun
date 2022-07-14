@@ -10,15 +10,17 @@ public enum PlayerType
 }
 public class PlayerCollisions : MonoBehaviour
 {
+    public PlayerType playerType;
     public Transform stackPos;
     public int curStackCount;
 
+    public bool grounded;
     public bool jumping;
     public bool bouncing;
     public bool canPlaceLog;
     public float logSpawnDelay;
     public List<GameObject> logs;
-
+    public bool botDeath;
 
 
     // Start is called before the first frame update
@@ -43,6 +45,9 @@ public class PlayerCollisions : MonoBehaviour
             if(logSpawnDelay >= 0.125f)
                 PlaceLog();
         }
+        if (grounded)
+            transform.GetComponent<PlayerMovement>().speed = 6;
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -66,11 +71,20 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (other.gameObject.CompareTag("water") && !GameManager.instance.dead)
         {
-            Camera.main.transform.parent = null;
-            GameManager.instance.dead = true;
+            if (playerType == PlayerType.human)
+            {
+                Camera.main.transform.parent = null;
+                GameManager.instance.dead = true;
+                UIManager.instance.panelGame.SetActive(false);
+                UIManager.instance.panelGameOver.SetActive(true);
+            }
+            if (playerType == PlayerType.bot)
+            {
+                botDeath = true;
+            }
             GameObject fx = Instantiate(GameManager.instance.splashFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), GameManager.instance.splashFX.transform.rotation);
             Destroy(fx, 1f);
-            UIManager.instance.panelGameOver.SetActive(true);
+
         }
         if (other.gameObject.CompareTag("bounce") && !GameManager.instance.dead)
         {
@@ -78,7 +92,7 @@ public class PlayerCollisions : MonoBehaviour
             //{
             //    bouncing = false;
             //});
-
+            grounded = false;
             bouncing = true;
         }
     }
@@ -98,6 +112,7 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (other.gameObject.CompareTag("ground"))
         {
+            grounded = true;
             jumping = false;
             transform.GetComponent<PlayerMovement>().anim.SetBool("jump", false);
             canPlaceLog = false;
@@ -116,11 +131,12 @@ public class PlayerCollisions : MonoBehaviour
             transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2,LoopType.Yoyo);
             jumping = true;
             transform.GetComponent<PlayerMovement>().anim.SetBool("jump", true);
- 
+            grounded = false;
         }
         if (other.gameObject.CompareTag("ground") && curStackCount > 0)
         {
             canPlaceLog = true;
+            grounded = false;
         }
     }
     public void PlaceLog()
@@ -143,6 +159,7 @@ public class PlayerCollisions : MonoBehaviour
             {
                 transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2, LoopType.Yoyo);
                 jumping = true;
+                grounded = false;
                 transform.GetComponent<PlayerMovement>().anim.SetBool("carry", false);
                 transform.GetComponent<PlayerMovement>().anim.SetBool("jump", true);
                 transform.GetComponent<PlayerMovement>().speed = 6;

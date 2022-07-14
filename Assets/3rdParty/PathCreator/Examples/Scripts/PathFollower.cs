@@ -16,16 +16,20 @@ namespace PathCreation.Examples
             {
                 // Subscribed to the pathUpdated event so that we're notified if the path changes during the game
                 pathCreator.pathUpdated += OnPathChanged;
+                distanceTravelled = 1f;
             }
+           
         }
 
         void Update()
         {
-            if (pathCreator != null)
+            if (pathCreator != null && GameManager.instance.gameStart && !GetComponent<PlayerCollisions>().botDeath)
             {
                 distanceTravelled += speed * Time.deltaTime;
                 transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+                GetComponent<PlayerMovement>().anim.SetBool("run", true);
                 transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+                transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
             }
         }
 

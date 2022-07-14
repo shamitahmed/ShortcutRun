@@ -21,26 +21,27 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody rb;
     public Animator anim;
-
+    PlayerType type;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
-
+        type = GetComponent<PlayerCollisions>().playerType;
     }
 
     void Update()
     {
         if (!GameManager.instance.gameStart) return;
 
-        HandlePlayerInput();
+        if(type==PlayerType.human)
+            HandlePlayerInput();
     }
 
     void FixedUpdate()
     {
         //if game start
-        if (!GameManager.instance.dead && GameManager.instance.gameStart)
+        if (!GameManager.instance.dead && GameManager.instance.gameStart && type == PlayerType.human)
         {
             move = true;
             anim.SetBool("run", true);
