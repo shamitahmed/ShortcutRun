@@ -14,6 +14,7 @@ public class PlayerCollisions : MonoBehaviour
     public int curStackCount;
 
     public bool jumping;
+    public bool bouncing;
     public bool canPlaceLog;
     public float logSpawnDelay;
     public List<GameObject> logs;
@@ -31,7 +32,12 @@ public class PlayerCollisions : MonoBehaviour
         {
             transform.position += transform.forward * Time.deltaTime * 8f;
         }
-        if (canPlaceLog && !GameManager.instance.dead)
+        if (bouncing)
+        {
+            transform.position += transform.forward * Time.deltaTime * 20f;
+            transform.position += Vector3.up * Time.deltaTime * 10f;
+        }
+        if (canPlaceLog && !GameManager.instance.dead && !bouncing)
         {
             logSpawnDelay += Time.deltaTime;
             if(logSpawnDelay >= 0.125f)
@@ -66,6 +72,15 @@ public class PlayerCollisions : MonoBehaviour
             Destroy(fx, 1f);
 
         }
+        if (other.gameObject.CompareTag("bounce") && !GameManager.instance.dead)
+        {
+            //transform.DOMoveY(transform.position.y + 30f, 2f).SetLoops(2, LoopType.Yoyo).OnComplete(()=>
+            //{
+            //    bouncing = false;
+            //});
+
+            bouncing = true;
+        }
     }
     private void OnTriggerStay(Collider other)
     {
@@ -87,6 +102,7 @@ public class PlayerCollisions : MonoBehaviour
             transform.GetComponent<PlayerMovement>().anim.SetBool("jump", false);
             canPlaceLog = false;
             transform.GetComponent<PlayerMovement>().speed = 6;
+            bouncing = false;
         }
         if (other.gameObject.CompareTag("logPlaced"))
         {
@@ -112,7 +128,7 @@ public class PlayerCollisions : MonoBehaviour
         if (curStackCount > 0)
         {
             GameObject go = Instantiate(GameManager.instance.logPlaceObj, new Vector3(transform.position.x, 0f, transform.position.z + 0.3f), transform.rotation);
-            go.transform.DOMoveY(go.transform.position.y - 0.1f, 0.05f);
+            go.transform.DOMoveY(go.transform.position.y - 0.2f, 0.05f);
             //go.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
             go.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 0.2f);
             Destroy(logs[curStackCount - 1]);
@@ -129,6 +145,7 @@ public class PlayerCollisions : MonoBehaviour
                 jumping = true;
                 transform.GetComponent<PlayerMovement>().anim.SetBool("carry", false);
                 transform.GetComponent<PlayerMovement>().anim.SetBool("jump", true);
+                transform.GetComponent<PlayerMovement>().speed = 6;
             }
         }
     }
