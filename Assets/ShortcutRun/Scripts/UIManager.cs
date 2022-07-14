@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI txtStartCount;
     public Button btnStart;
     public Button btnRetry;
+    public GameObject tutorial;
+
 
 
     private void Awake()
@@ -51,6 +53,7 @@ public class UIManager : MonoBehaviour
     }
     public IEnumerator StartRoutine()
     {
+        tutorial.SetActive(true);
         txtStartCount.gameObject.SetActive(true);
         txtStartCount.text = "3";
         txtStartCount.transform.DOPunchScale(new Vector3(0.4f,0.4f,0.4f),0.2f);
@@ -71,7 +74,7 @@ public class UIManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         txtStartCount.gameObject.SetActive(false);
+        tutorial.SetActive(false);
 
-       
     }
 }
