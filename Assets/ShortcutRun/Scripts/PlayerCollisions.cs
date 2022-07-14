@@ -24,6 +24,7 @@ public class PlayerCollisions : MonoBehaviour
     public List<GameObject> logs;
     public bool botDeath;
     public int botID;
+    public GameObject windFx;
 
     // Start is called before the first frame update
     void Start()
@@ -130,6 +131,7 @@ public class PlayerCollisions : MonoBehaviour
             //});
             grounded = false;
             bouncing = true;
+            windFx.SetActive(false);
         }
     }
     private void OnTriggerStay(Collider other)
@@ -141,6 +143,7 @@ public class PlayerCollisions : MonoBehaviour
         if (other.gameObject.CompareTag("water") && !GameManager.instance.dead)
         {
             water = false;
+            windFx.SetActive(false);
         }
             
     }
@@ -154,10 +157,12 @@ public class PlayerCollisions : MonoBehaviour
             canPlaceLog = false;
             transform.GetComponent<PlayerMovement>().speed = 6;
             bouncing = false;
+            windFx.SetActive(false);
         }
         if (other.gameObject.CompareTag("logPlaced"))
         {
             transform.GetComponent<PlayerMovement>().speed = 11;
+            windFx.SetActive(true);
         }
     }
     private void OnCollisionExit(Collision other)
@@ -168,6 +173,7 @@ public class PlayerCollisions : MonoBehaviour
             jumping = true;
             transform.GetComponent<PlayerMovement>().anim.SetBool("jump", true);
             grounded = false;
+            windFx.SetActive(false);
         }
         if (other.gameObject.CompareTag("ground") && curStackCount > 0)
         {
@@ -198,11 +204,13 @@ public class PlayerCollisions : MonoBehaviour
                 
             GameObject fx = Instantiate(GameManager.instance.stackFX, go.transform.position, Quaternion.identity);
             Destroy(fx, 1f);
+            
             //transform.GetComponent<PlayerMovement>().anim.SetTrigger("place");
 
             logSpawnDelay = 0;
             if(curStackCount <= 0)
             {
+                windFx.SetActive(false);
                 transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2, LoopType.Yoyo);
                 jumping = true;
                 grounded = false;
