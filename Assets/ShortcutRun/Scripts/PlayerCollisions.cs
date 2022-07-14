@@ -56,18 +56,22 @@ public class PlayerCollisions : MonoBehaviour
         {
             Destroy(other.gameObject);
             curStackCount++;
-            transform.gameObject.GetComponent<PlayerMovement>().anim.SetBool("carry", true);    
+            transform.gameObject.GetComponent<PlayerMovement>().anim.SetBool("carry", true);
 
             GameObject go = Instantiate(GameManager.instance.logStackObj, new Vector3(stackPos.transform.position.x, stackPos.transform.position.y + 0.15f * curStackCount, stackPos.transform.position.z), Quaternion.identity);
             go.transform.parent = stackPos;
             go.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
-            go.transform.DOPunchScale(new Vector3(0.3f,0.3f,0.3f),0.2f);
+            go.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 0.2f);
             logs.Add(go);
 
             GameObject fx = Instantiate(GameManager.instance.stackFX, new Vector3(stackPos.transform.position.x, stackPos.transform.position.y + 0.15f * curStackCount, stackPos.transform.position.z), Quaternion.identity);
             Destroy(fx, 1f);
 
-            UIManager.instance.txtLogCount.text = curStackCount.ToString();
+            if (playerType == PlayerType.human)
+            { 
+                UIManager.instance.txtLogCount.text = curStackCount.ToString();
+                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.015f * curStackCount, 0.1f);
+            }
         }
         if (other.gameObject.CompareTag("water") && !GameManager.instance.dead)
         {

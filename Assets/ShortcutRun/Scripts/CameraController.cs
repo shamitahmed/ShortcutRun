@@ -39,15 +39,23 @@ public class CameraController : MonoBehaviour
 
             if(GameManager.instance.player.GetComponent<PlayerCollisions>().curStackCount >= 10)
             {
-                offset.y = Mathf.Lerp(offset.y, 12 , 0.25f);
+                offset.y = Mathf.Lerp(offset.y, 11 , 0.25f);
+                offset.z = Mathf.Lerp(offset.z, -13, 0.25f);
             }
             if (GameManager.instance.player.GetComponent<PlayerCollisions>().curStackCount >= 20)
             {
+                offset.y = Mathf.Lerp(offset.y, 13, 0.25f);
+                offset.z = Mathf.Lerp(offset.z, -14, 0.25f);
+            }
+            if (GameManager.instance.player.GetComponent<PlayerCollisions>().curStackCount >= 40)
+            {
                 offset.y = Mathf.Lerp(offset.y, 15, 0.25f);
+                offset.z = Mathf.Lerp(offset.z, -16, 0.25f);
             }
             if (GameManager.instance.player.GetComponent<PlayerCollisions>().curStackCount < 10)
             {
                 offset.y = Mathf.Lerp(offset.y, 10, 0.25f);
+                offset.z = Mathf.Lerp(offset.z, -12, 0.25f);
             }
             //transform.rotation = target.rotation;
             //transform.LookAt(target);
