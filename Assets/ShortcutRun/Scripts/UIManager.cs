@@ -38,6 +38,7 @@ public class UIManager : MonoBehaviour
     {
         panelStart.SetActive(false);
         GameManager.instance.gameStart = true;
+        GameManager.instance.player.GetComponent<PlayerMovement>().targetDirection = Vector3.forward;
     }
     public void BtnRetryCallback()
     {

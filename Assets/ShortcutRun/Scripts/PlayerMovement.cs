@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 mouseCurrentPos;
     private Vector3 mouseStartPos;
     private Vector3 moveDirection;
-    private Vector3 targetDirection;
+    public Vector3 targetDirection;
     private Vector3 deviation;
     private float currentDragDistance;
     public float maxDragDistance = 10f;
