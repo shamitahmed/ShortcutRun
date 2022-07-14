@@ -137,6 +137,13 @@ public class PlayerCollisions : MonoBehaviour
             if (playerType == PlayerType.human)
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.bounceSFX);
         }
+        if (other.gameObject.CompareTag("finish") && !GameManager.instance.dead)
+        {
+            if (playerType == PlayerType.human)
+            {
+                StartCoroutine(GameManager.instance.EndBonusPods());
+            }
+        }
     }
     private void OnTriggerStay(Collider other)
     {

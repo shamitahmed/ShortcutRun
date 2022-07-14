@@ -71,7 +71,7 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Offset1: -5
+    - _Offset1: -3
     - _Offset2: 0
     - _Outline: 1
     - _Parallax: 0.02

@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour
     [Header("FX")]
     public GameObject splashFX;
     public GameObject confettiFX;
+    [Header("End Bonus")]
+    public GameObject endPlatform;
+    public GameObject finishLine;
+
 
 
     private void Awake()
@@ -33,5 +37,14 @@ public class GameManager : MonoBehaviour
     {
         
     }
+    public IEnumerator EndBonusPods()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            //spawn
+            yield return new WaitForSeconds(0.2f);
+            GameObject go = Instantiate(endPlatform, new Vector3(finishLine.transform.position.x, endPlatform.transform.position.y, finishLine.transform.position.z + 10f * (i + 1)), Quaternion.identity);
 
+        }
+    }
 }
