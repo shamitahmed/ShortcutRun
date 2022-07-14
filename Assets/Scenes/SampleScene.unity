@@ -5797,6 +5797,7 @@ MonoBehaviour:
   playerType: 0
   stackPos: {fileID: 327490093}
   curStackCount: 0
+  newStackCount: 0
   grounded: 0
   jumping: 0
   bouncing: 0
@@ -9341,7 +9342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1349725923
 RectTransform:
   m_ObjectHideFlags: 0

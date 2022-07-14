@@ -43,16 +43,15 @@ namespace PathCreation.Examples
         {
             if (GetComponent<PlayerCollisions>().botID == 0)
             {
-                transform.position = pathCreator.path.GetPointAtDistance(14f);
+                transform.position = pathCreator.path.GetPointAtDistance(10f);             
+                distanceTravelled = 10f;
                 transform.position = new Vector3(2.253009f, transform.position.y, transform.position.z);
-                distanceTravelled = 14f;
             }
             else if (GetComponent<PlayerCollisions>().botID == 1)
             {
-                transform.position = pathCreator.path.GetPointAtDistance(19f);
+                transform.position = pathCreator.path.GetPointAtDistance(16f);         
+                distanceTravelled = 16f;
                 transform.position = new Vector3(-1.65f, transform.position.y, transform.position.z);
-                distanceTravelled = 19f;
-
             }
         }
     }

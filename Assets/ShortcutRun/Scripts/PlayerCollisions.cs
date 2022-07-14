@@ -13,10 +13,12 @@ public class PlayerCollisions : MonoBehaviour
     public PlayerType playerType;
     public Transform stackPos;
     public int curStackCount;
+    public int newStackCount;
 
     public bool grounded;
     public bool jumping;
     public bool bouncing;
+    public bool water;
     public bool canPlaceLog;
     public float logSpawnDelay;
     public List<GameObject> logs;
@@ -41,9 +43,10 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (canPlaceLog && !GameManager.instance.dead && !bouncing)
         {
-            logSpawnDelay += Time.deltaTime;
             if(logSpawnDelay >= 0.125f)
                 PlaceLog();
+            else
+                logSpawnDelay += Time.deltaTime;
         }
         if (grounded)
             transform.GetComponent<PlayerMovement>().speed = 6;
@@ -68,26 +71,50 @@ public class PlayerCollisions : MonoBehaviour
             Destroy(fx, 1f);
 
             if (playerType == PlayerType.human)
-            { 
-                UIManager.instance.txtLogCount.text = curStackCount.ToString();
-                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.015f * curStackCount, 0.1f);
+            {
+                UIManager.instance.txtLogCount.transform.gameObject.SetActive(true);
+                newStackCount++;
+                UIManager.instance.txtLogCount.text = "+" + newStackCount.ToString();
+                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.1f,0.1f).OnComplete(() =>
+                {
+
+                });
+                
+                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.015f * curStackCount, 0.1f).SetDelay(2).OnComplete(()=>
+                {
+                    UIManager.instance.txtLogCount.DOFade(1f, 0.1f);
+                    newStackCount = 0;
+                    UIManager.instance.txtLogCount.transform.gameObject.SetActive(false);
+                });
             }
         }
         if (other.gameObject.CompareTag("water") && !GameManager.instance.dead)
         {
-            if (playerType == PlayerType.human)
+            bouncing = false;
+            water = true;
+
+            if (curStackCount > 0)
             {
-                Camera.main.transform.parent = null;
-                GameManager.instance.dead = true;
-                UIManager.instance.panelGame.SetActive(false);
-                UIManager.instance.panelGameOver.SetActive(true);
-            }
-            if (playerType == PlayerType.bot)
+                canPlaceLog = true;
+                logSpawnDelay = 0.125f;
+            }            
+            else
             {
-                botDeath = true;
+                if (playerType == PlayerType.human)
+                {
+                    Camera.main.transform.parent = null;
+                    GameManager.instance.dead = true;
+                    UIManager.instance.panelGame.SetActive(false);
+                    UIManager.instance.panelGameOver.SetActive(true);
+                }
+                if (playerType == PlayerType.bot)
+                {
+                    botDeath = true;
+                }
+                GameObject fx = Instantiate(GameManager.instance.splashFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), GameManager.instance.splashFX.transform.rotation);
+                Destroy(fx, 1f);
+
             }
-            GameObject fx = Instantiate(GameManager.instance.splashFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), GameManager.instance.splashFX.transform.rotation);
-            Destroy(fx, 1f);
 
         }
         if (other.gameObject.CompareTag("bounce") && !GameManager.instance.dead)
@@ -106,10 +133,10 @@ public class PlayerCollisions : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        //if (other.gameObject.CompareTag("water") && !GameManager.instance.dead)
-        //{
-        //    canPlaceLog = false;
-        //}
+        if (other.gameObject.CompareTag("water") && !GameManager.instance.dead)
+        {
+            water = false;
+        }
             
     }
     private void OnCollisionEnter(Collision other)
@@ -140,6 +167,7 @@ public class PlayerCollisions : MonoBehaviour
         if (other.gameObject.CompareTag("ground") && curStackCount > 0)
         {
             canPlaceLog = true;
+            logSpawnDelay = 0.125f;
             grounded = false;
         }
     }
@@ -154,6 +182,15 @@ public class PlayerCollisions : MonoBehaviour
             Destroy(logs[curStackCount - 1]);
             logs.RemoveAt(curStackCount - 1);
             curStackCount--;
+
+            if (water)
+                transform.DOMoveY(0.1f,0.01f);
+
+            if (playerType == PlayerType.human)
+            {
+                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y - 0.005f * curStackCount, 0.1f);
+            }
+                
             GameObject fx = Instantiate(GameManager.instance.stackFX, go.transform.position, Quaternion.identity);
             Destroy(fx, 1f);
             //transform.GetComponent<PlayerMovement>().anim.SetTrigger("place");
