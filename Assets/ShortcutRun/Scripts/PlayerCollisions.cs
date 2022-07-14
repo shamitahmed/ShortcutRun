@@ -28,7 +28,7 @@ public class PlayerCollisions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //stackPos.transform.GetChild(0).DORotateQuaternion(Quaternion.EulerAngles(2,0,0),0.2f).SetLoops(-1,LoopType.Yoyo);
     }
     private void Update()
     {
@@ -62,7 +62,7 @@ public class PlayerCollisions : MonoBehaviour
             transform.gameObject.GetComponent<PlayerMovement>().anim.SetBool("carry", true);
 
             GameObject go = Instantiate(GameManager.instance.logStackObj, new Vector3(stackPos.transform.position.x, stackPos.transform.position.y + 0.15f * curStackCount, stackPos.transform.position.z), Quaternion.identity);
-            go.transform.parent = stackPos;
+            go.transform.parent = stackPos.transform.GetChild(0);
             go.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
             go.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 0.2f);
             logs.Add(go);
@@ -75,6 +75,11 @@ public class PlayerCollisions : MonoBehaviour
                 UIManager.instance.txtLogCount.transform.gameObject.SetActive(true);
                 newStackCount++;
                 UIManager.instance.txtLogCount.text = "+" + newStackCount.ToString();
+                UIManager.instance.txtLogCount.transform.DOScale(new Vector3(-1.5f, 1.5f, 1.5f), 0.1f).OnComplete(() =>
+                {
+                    UIManager.instance.txtLogCount.transform.DOScale(new Vector3(-1f, 1f, 1f), 0.05f);
+                });
+                //UIManager.instance.txtLogCount.transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0.2f), 0.1f);
                 UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.1f,0.1f).OnComplete(() =>
                 {
 
