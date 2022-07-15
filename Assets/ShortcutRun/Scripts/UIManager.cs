@@ -97,7 +97,8 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         txtStartCount.gameObject.SetActive(false);
         tutorial.SetActive(false);
-
+        yield return new WaitForSeconds(1f);
+        txtName.gameObject.SetActive(false);
     }
 
     public void EnterPlayerName()
