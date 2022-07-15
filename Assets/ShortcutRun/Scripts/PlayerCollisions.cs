@@ -33,11 +33,19 @@ public class PlayerCollisions : MonoBehaviour
     public int bonusCoinX;
     public int randStackColor;
 
+    public float distFromEnd;
+    public int rank;
+
+    private void Awake()
+    {
+        
+    }
     // Start is called before the first frame update
     void Start()
     {
         crown.SetActive(false);
         randStackColor = Random.Range(0, GameManager.instance.podMats.Length);
+        
     }
     private void Update()
     {
@@ -59,6 +67,8 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (grounded)
             transform.GetComponent<PlayerMovementTwo>().speed = 7;
+        if(GameManager.instance.gameStart)
+            GetDistanceFromFinish();
 
     }
 
@@ -170,6 +180,7 @@ public class PlayerCollisions : MonoBehaviour
             //});
             grounded = false;
             bouncing = true;
+            jumping = false;
             windFx.SetActive(false);
             if (playerType == PlayerType.human)
             {
@@ -197,10 +208,6 @@ public class PlayerCollisions : MonoBehaviour
             Destroy(fx, 2f);
         }
 
-    }
-    private void OnTriggerStay(Collider other)
-    {
-        
     }
     private void OnTriggerExit(Collider other)
     {
@@ -251,8 +258,8 @@ public class PlayerCollisions : MonoBehaviour
                 UIManager.instance.panelGame.SetActive(false);
                 GameObject fx = Instantiate(GameManager.instance.confettiFX, other.transform.position, Quaternion.identity);
                 Destroy(fx, 2f);
-                //give bonus
-
+                other.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+                other.gameObject.transform.GetChild(1).GetComponent<ParticleSystem>().startColor= other.gameObject.GetComponent<MeshRenderer>().material.color;
 
             }
             else
@@ -260,6 +267,8 @@ public class PlayerCollisions : MonoBehaviour
                 lastPodOn = other.gameObject;
                 //effects
                 HapticPatterns.PlayConstant(0.2f, 0f, 0.15f);
+                other.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+                other.gameObject.transform.GetChild(1).GetComponent<ParticleSystem>().startColor = other.gameObject.GetComponent<MeshRenderer>().material.color;
             }
 
         }
@@ -272,6 +281,7 @@ public class PlayerCollisions : MonoBehaviour
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.jumpSFX);
             transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2,LoopType.Yoyo);
             jumping = true;
+            bouncing = false;
             transform.GetComponent<PlayerMovementTwo>().anim.SetBool("jump", true);
             grounded = false;
             windFx.SetActive(false);
@@ -321,6 +331,7 @@ public class PlayerCollisions : MonoBehaviour
                 windFx.SetActive(false);
                 transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2, LoopType.Yoyo);
                 jumping = true;
+                bouncing = false;
                 grounded = false;
                 transform.GetComponent<PlayerMovementTwo>().anim.SetBool("carry", false);
                 transform.GetComponent<PlayerMovementTwo>().anim.SetBool("jump", true);
@@ -354,5 +365,13 @@ public class PlayerCollisions : MonoBehaviour
         PlayerPrefs.SetInt(GameManager.instance.totalCoinKey, GameManager.instance.totalCoin);
         SoundManager.Instance.PlaySFX(SoundManager.Instance.winSFX);
         HapticPatterns.PlayConstant(0.4f, 0f, 0.2f);
+    }
+    public void GetDistanceFromFinish()
+    {
+        distFromEnd = Vector3.Distance(transform.position, GameManager.instance.finishLine.transform.position);
+        if (playerType == PlayerType.human)
+            BotManager.instance.leaderboardDist[0] = distFromEnd;
+        else if (playerType == PlayerType.bot)
+            BotManager.instance.leaderboardDist[botID + 1] = distFromEnd;
     }
 }

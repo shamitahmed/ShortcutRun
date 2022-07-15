@@ -33,6 +33,8 @@ public class UIManager : MonoBehaviour
     public string playerName;
     public Button btnPlayername;
 
+    public TextMeshProUGUI txtPlayerPosition;
+
     private void Awake()
     {
         instance = this;
