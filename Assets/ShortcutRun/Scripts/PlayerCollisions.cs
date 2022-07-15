@@ -40,11 +40,11 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (jumping)
         {
-            transform.position += transform.forward * Time.deltaTime * 7f;
+            transform.position += transform.forward * Time.deltaTime * 4f;
         }
         if (bouncing)
         {
-            transform.position += transform.forward * Time.deltaTime * 10f;
+            transform.position += transform.forward * Time.deltaTime * 9f;
             transform.position += Vector3.up * Time.deltaTime * 20f;
         }
         if (canPlaceLog && !GameManager.instance.dead && !bouncing)
@@ -55,7 +55,7 @@ public class PlayerCollisions : MonoBehaviour
                 logSpawnDelay += Time.deltaTime;
         }
         if (grounded)
-            transform.GetComponent<PlayerMovementTwo>().speed = 6;
+            transform.GetComponent<PlayerMovementTwo>().speed = 7;
 
     }
 
@@ -209,7 +209,7 @@ public class PlayerCollisions : MonoBehaviour
             jumping = false;
             transform.GetComponent<PlayerMovementTwo>().anim.SetBool("jump", false);
             canPlaceLog = false;
-            transform.GetComponent<PlayerMovementTwo>().speed = 6;
+            transform.GetComponent<PlayerMovementTwo>().speed = 7;
             bouncing = false;
             windFx.SetActive(false);
             if (playerType == PlayerType.human)
@@ -307,7 +307,7 @@ public class PlayerCollisions : MonoBehaviour
                 grounded = false;
                 transform.GetComponent<PlayerMovementTwo>().anim.SetBool("carry", false);
                 transform.GetComponent<PlayerMovementTwo>().anim.SetBool("jump", true);
-                transform.GetComponent<PlayerMovementTwo>().speed = 6;
+                transform.GetComponent<PlayerMovementTwo>().speed = 7;
             }
         }
     }

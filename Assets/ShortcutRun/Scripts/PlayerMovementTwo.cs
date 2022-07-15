@@ -26,7 +26,7 @@ public class PlayerMovementTwo : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!GameManager.instance.gameStart) return;
+        //if (!GameManager.instance.gameStart) return;
 
         if (type == PlayerType.human && !GetComponent<PlayerCollisions>().endPodReached)
             HandlePlayerInput();
