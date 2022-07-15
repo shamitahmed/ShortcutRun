@@ -39,7 +39,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1367315999}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: ce826542c380cf54ca38c85803a2b521, type: 2}
   m_CullingMode: 0
@@ -1660,6 +1660,7 @@ MonoBehaviour:
   jumping: 0
   bouncing: 0
   water: 0
+  endPodReached: 0
   canPlaceLog: 0
   logSpawnDelay: 0
   logs: []

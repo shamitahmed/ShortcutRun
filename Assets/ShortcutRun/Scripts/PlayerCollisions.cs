@@ -19,12 +19,16 @@ public class PlayerCollisions : MonoBehaviour
     public bool jumping;
     public bool bouncing;
     public bool water;
+    public bool endPodReached;
     public bool canPlaceLog;
     public float logSpawnDelay;
     public List<GameObject> logs;
     public bool botDeath;
     public int botID;
     public GameObject windFx;
+    public GameObject lastPodOn;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -105,6 +109,29 @@ public class PlayerCollisions : MonoBehaviour
                 canPlaceLog = true;
                 logSpawnDelay = 0.125f;
             }            
+            else if (GameManager.instance.finishCrossed && playerType == PlayerType.human)
+            {
+                //move to last end pod player was on, back to finishline if none 
+                if(lastPodOn != null)
+                {
+                    transform.DOMove(lastPodOn.transform.position,0.5f).OnComplete(()=>
+                    {
+                        StopPlayerAtEnd();
+                        
+                    });
+                    transform.DOMoveY(0f, 0.1f);
+                }
+                else
+                {
+                    transform.DOMove(GameManager.instance.finishLine.transform.position, 0.5f).OnComplete(() =>
+                    {
+                        StopPlayerAtEnd();
+
+                    }); ;
+                    transform.DOMoveY(0f, 0.1f);
+
+                }
+            }
             else//DEATH
             {
                 if (playerType == PlayerType.human)
@@ -145,13 +172,7 @@ public class PlayerCollisions : MonoBehaviour
                 GameManager.instance.finishCrossed = true;
             }
         }
-        if (other.gameObject.CompareTag("endpod") && !GameManager.instance.dead)
-        {
-            //stop player control
 
-            //give bonus
-
-        }
     }
     private void OnTriggerStay(Collider other)
     {
@@ -184,6 +205,30 @@ public class PlayerCollisions : MonoBehaviour
         {
             transform.GetComponent<PlayerMovement>().speed = 11;
             windFx.SetActive(true);
+        }
+        if (other.gameObject.CompareTag("endpod") && !GameManager.instance.dead && !endPodReached)
+        {
+            if(curStackCount <= 0)
+            {
+                //stop player control
+                endPodReached = true;
+                transform.DOMove(other.transform.position, 0.5f).OnComplete(() =>
+                {
+                    StopPlayerAtEnd();
+
+                });
+                transform.DOMoveY(0f, 0.1f);
+                UIManager.instance.panelGame.SetActive(false);
+
+                //give bonus
+            }
+            else
+            {
+                lastPodOn = other.gameObject;
+                //effects
+
+            }
+
         }
     }
     private void OnCollisionExit(Collision other)
@@ -252,5 +297,17 @@ public class PlayerCollisions : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         UIManager.instance.panelGameOver.SetActive(true);
         SoundManager.Instance.PlaySFX(SoundManager.Instance.loseSFX);
+    }
+    void StopPlayerAtEnd()
+    {
+        windFx.SetActive(false);
+        GetComponent<PlayerMovement>().enabled = false;
+        GetComponent<Rigidbody>().useGravity = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        this.enabled = false;
+        transform.DORotateQuaternion(Quaternion.Euler(0, 180, 0), 0.2f);
+        //rotate
+
     }
 }

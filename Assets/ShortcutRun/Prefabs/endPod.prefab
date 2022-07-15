@@ -56,7 +56,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 76b24f09fdd2fe246871b1d6458435fd, type: 2}
+  - {fileID: 2180264, guid: f2fab83dda66bd649ac4c83d160c562f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,8 +100,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: x1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 76b24f09fdd2fe246871b1d6458435fd, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 76b24f09fdd2fe246871b1d6458435fd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f2fab83dda66bd649ac4c83d160c562f, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: f2fab83dda66bd649ac4c83d160c562f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -261,7 +261,7 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7519464528340833286}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1

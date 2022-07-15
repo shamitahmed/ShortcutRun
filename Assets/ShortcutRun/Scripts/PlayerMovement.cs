@@ -34,14 +34,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!GameManager.instance.gameStart) return;
 
-        if(type==PlayerType.human)
+        if(type==PlayerType.human && !GetComponent<PlayerCollisions>().endPodReached)
             HandlePlayerInput();
     }
 
     void FixedUpdate()
     {
         //if game start
-        if (!GameManager.instance.dead && GameManager.instance.gameStart && type == PlayerType.human)
+        if (!GameManager.instance.dead && GameManager.instance.gameStart && type == PlayerType.human && !GetComponent<PlayerCollisions>().endPodReached)
         {
             move = true;
             anim.SetBool("run", true);

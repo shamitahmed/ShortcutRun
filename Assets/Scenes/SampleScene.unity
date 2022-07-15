@@ -10408,6 +10408,7 @@ MonoBehaviour:
   jumping: 0
   bouncing: 0
   water: 0
+  endPodReached: 0
   canPlaceLog: 0
   logSpawnDelay: 0
   logs: []
