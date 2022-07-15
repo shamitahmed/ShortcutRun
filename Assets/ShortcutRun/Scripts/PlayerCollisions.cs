@@ -165,7 +165,10 @@ public class PlayerCollisions : MonoBehaviour
             bouncing = true;
             windFx.SetActive(false);
             if (playerType == PlayerType.human)
+            {
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.bounceSFX);
+                HapticPatterns.PlayConstant(0.2f, 0f, 0.15f);
+            }              
         }
         if (other.gameObject.CompareTag("finish") && !GameManager.instance.dead)
         {
@@ -213,7 +216,11 @@ public class PlayerCollisions : MonoBehaviour
             bouncing = false;
             windFx.SetActive(false);
             if (playerType == PlayerType.human)
+            {
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.landSFX);
+                HapticPatterns.PlayConstant(0.2f, 0f, 0.15f);
+            }
+              
         }
         if (other.gameObject.CompareTag("logPlaced"))
         {
@@ -245,7 +252,7 @@ public class PlayerCollisions : MonoBehaviour
             {
                 lastPodOn = other.gameObject;
                 //effects
-
+                HapticPatterns.PlayConstant(0.2f, 0f, 0.15f);
             }
 
         }
@@ -288,7 +295,7 @@ public class PlayerCollisions : MonoBehaviour
             {
                 //UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y - 0.005f * curStackCount, 0.1f);
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.logPlaceSFX);
-                HapticPatterns.PlayConstant(0.15f, 0f, 0.1f);
+                HapticPatterns.PlayConstant(0.125f, 0f, 0.1f);
             }
                 
             GameObject fx = Instantiate(GameManager.instance.stackFX, go.transform.position, Quaternion.identity);
