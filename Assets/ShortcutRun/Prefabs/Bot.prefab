@@ -1523,8 +1523,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Alex
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 76b24f09fdd2fe246871b1d6458435fd, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 76b24f09fdd2fe246871b1d6458435fd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1554,7 +1554,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1998,7 +1998,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 840601708845528728}
   m_LocalRotation: {x: -0.5171457, y: -0.4822463, z: -0.48224556, w: 0.5171442}
-  m_LocalPosition: {x: 0.168, y: 2.087, z: 0.27723688}
+  m_LocalPosition: {x: 0.415, y: 2.087, z: 0.27723688}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 840601708596569256}

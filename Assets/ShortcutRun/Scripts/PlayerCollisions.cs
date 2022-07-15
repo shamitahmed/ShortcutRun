@@ -44,8 +44,8 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (bouncing)
         {
-            transform.position += transform.forward * Time.deltaTime * 9f;
-            transform.position += Vector3.up * Time.deltaTime * 20f;
+            transform.position += transform.forward * Time.deltaTime * 7f;
+            transform.position += Vector3.up * Time.deltaTime * 12f;
         }
         if (canPlaceLog && !GameManager.instance.dead && !bouncing)
         {
@@ -335,6 +335,7 @@ public class PlayerCollisions : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         this.enabled = false;
+        Camera.main.transform.parent = null;
         transform.DORotateQuaternion(Quaternion.Euler(0, 180, 0), 0.2f);
         //rotate
         UIManager.instance.panelGameWin.SetActive(true);

@@ -28,6 +28,10 @@ public class UIManager : MonoBehaviour
     public GameObject panelGameWin;
     public Button btnNext;
 
+    public GameObject onScreenKeyboard;
+    public string playerNameKey = "playernamekey";
+    public string playerName;
+    public Button btnPlayername;
 
     private void Awake()
     {
@@ -41,6 +45,11 @@ public class UIManager : MonoBehaviour
         btnNext.onClick.AddListener(() => BtnNextCallback());
 
         txtStartCount.gameObject.SetActive(false);
+        onScreenKeyboard.gameObject.SetActive(false);
+
+        playerName = PlayerPrefs.GetString(playerNameKey, "Player");
+        txtName.text = playerName;
+        btnPlayername.onClick.AddListener(() => onScreenKeyboard.SetActive(true));
     }
     private void FixedUpdate()
     {
@@ -89,5 +98,13 @@ public class UIManager : MonoBehaviour
         txtStartCount.gameObject.SetActive(false);
         tutorial.SetActive(false);
 
+    }
+
+    public void EnterPlayerName()
+    {
+        playerName = onScreenKeyboard.GetComponent<KeyboardScript>().TextField.text;
+        PlayerPrefs.SetString(playerNameKey, playerName);
+        txtName.text = playerName;
+        onScreenKeyboard.SetActive(false);
     }
 }
