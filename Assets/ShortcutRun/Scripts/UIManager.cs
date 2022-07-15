@@ -5,6 +5,7 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Lofelt.NiceVibrations;
 
 public class UIManager : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class UIManager : MonoBehaviour
     public Button btnRetry;
     public GameObject tutorial;
 
+    public TextMeshProUGUI txtTotalCoin;
+    public TextMeshProUGUI txtCoinGained;
+    public GameObject panelGameWin;
+    public Button btnNext;
 
 
     private void Awake()
@@ -33,6 +38,7 @@ public class UIManager : MonoBehaviour
     {
         btnStart.onClick.AddListener(() => BtnStart());
         btnRetry.onClick.AddListener(() => BtnRetryCallback());
+        btnNext.onClick.AddListener(() => BtnNextCallback());
 
         txtStartCount.gameObject.SetActive(false);
     }
@@ -45,10 +51,16 @@ public class UIManager : MonoBehaviour
     public void BtnStart()
     {
         panelStart.SetActive(false);
-        
+        panelGame.SetActive(true);
+        HapticPatterns.PlayConstant(0.3f, 0f, 0.2f);
+
         StartCoroutine(StartRoutine());
     }
     public void BtnRetryCallback()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+    public void BtnNextCallback()
     {
         SceneManager.LoadScene("SampleScene");
     }
@@ -68,6 +80,7 @@ public class UIManager : MonoBehaviour
         txtStartCount.text = "GO!";
         txtStartCount.transform.DOPunchScale(new Vector3(0.6f, 0.6f, 0.6f), 0.2f);
         SoundManager.Instance.PlaySFX(SoundManager.Instance.tapStartSFX);
+        HapticPatterns.PlayConstant(0.3f, 0f, 0.2f);
 
         GameManager.instance.gameStart = true;
         GameManager.instance.player.GetComponent<PlayerMovement>().targetDirection = Vector3.forward;

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Lofelt.NiceVibrations;
+using UnityEngine.UI;
 
 public enum PlayerType
 {
@@ -27,8 +29,7 @@ public class PlayerCollisions : MonoBehaviour
     public int botID;
     public GameObject windFx;
     public GameObject lastPodOn;
-
-
+    public int bonusCoinX;
 
     // Start is called before the first frame update
     void Start()
@@ -77,6 +78,7 @@ public class PlayerCollisions : MonoBehaviour
 
             if (playerType == PlayerType.human)
             {
+                HapticPatterns.PlayConstant(0.2f, 0f, 0.1f);
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.logPickSFX);
                 UIManager.instance.txtLogCount.transform.gameObject.SetActive(true);
                 newStackCount++;
@@ -114,28 +116,29 @@ public class PlayerCollisions : MonoBehaviour
                 //move to last end pod player was on, back to finishline if none 
                 if(lastPodOn != null)
                 {
-                    transform.DOMove(lastPodOn.transform.position,0.5f).OnComplete(()=>
+                    transform.DOMove(new Vector3(lastPodOn.transform.position.x, lastPodOn.transform.position.y + 1.2f, lastPodOn.transform.position.z), 0.5f).OnComplete(()=>
                     {
+                        bonusCoinX = System.Convert.ToInt32(lastPodOn.transform.GetChild(0).GetComponent<TextMesh>().text.Substring(1, 1));
                         StopPlayerAtEnd();
                         
                     });
-                    transform.DOMoveY(0f, 0.1f);
+                    
                 }
                 else
                 {
-                    transform.DOMove(GameManager.instance.finishLine.transform.position, 0.5f).OnComplete(() =>
+                    transform.DOMove(new Vector3(GameManager.instance.finishLine.transform.position.x, GameManager.instance.finishLine.transform.position.y + 1f, GameManager.instance.finishLine.transform.position.z), 0.5f).OnComplete(() =>
                     {
+                        bonusCoinX = 1;
                         StopPlayerAtEnd();
-
                     }); ;
-                    transform.DOMoveY(0f, 0.1f);
-
+                    
                 }
             }
             else//DEATH
             {
                 if (playerType == PlayerType.human)
                 {
+                    HapticPatterns.PlayConstant(0.5f, 0f, 0.2f);
                     SoundManager.Instance.PlaySFX(SoundManager.Instance.splashSFX);
                     Camera.main.transform.parent = null;
                     GameManager.instance.dead = true;
@@ -166,11 +169,22 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (other.gameObject.CompareTag("finish") && !GameManager.instance.dead)
         {
-            if (playerType == PlayerType.human && !GameManager.instance.finishCrossed)
+            if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount > 0)
             {
                 StartCoroutine(GameManager.instance.EndBonusPods());
-                GameManager.instance.finishCrossed = true;
             }
+            else if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount <= 0)
+            {
+
+                transform.DOMove(new Vector3(GameManager.instance.finishLine.transform.position.x, GameManager.instance.finishLine.transform.position.y + 1f, GameManager.instance.finishLine.transform.position.z), 0.5f).OnComplete(() =>
+                {
+                    bonusCoinX = 1;
+                    StopPlayerAtEnd();
+                }); ;
+            }
+            GameManager.instance.finishCrossed = true;
+            GameObject fx = Instantiate(GameManager.instance.confettiFX, other.transform.position, Quaternion.identity);
+            Destroy(fx, 2f);
         }
 
     }
@@ -211,16 +225,21 @@ public class PlayerCollisions : MonoBehaviour
             if(curStackCount <= 0)
             {
                 //stop player control
+                lastPodOn = other.gameObject;
                 endPodReached = true;
-                transform.DOMove(other.transform.position, 0.5f).OnComplete(() =>
+                transform.DOMove(new Vector3(lastPodOn.transform.position.x, lastPodOn.transform.position.y + 1.2f, lastPodOn.transform.position.z), 0.5f).OnComplete(() =>
                 {
+                    bonusCoinX = System.Convert.ToInt32(lastPodOn.transform.GetChild(0).GetComponent<TextMesh>().text.Substring(0, 1));
                     StopPlayerAtEnd();
-
+                    //transform.DOMoveY(lastPodOn.transform.position.y + 0.3f, 0.1f);
                 });
-                transform.DOMoveY(0f, 0.1f);
+                
                 UIManager.instance.panelGame.SetActive(false);
-
+                GameObject fx = Instantiate(GameManager.instance.confettiFX, other.transform.position, Quaternion.identity);
+                Destroy(fx, 2f);
                 //give bonus
+
+
             }
             else
             {
@@ -269,6 +288,7 @@ public class PlayerCollisions : MonoBehaviour
             {
                 //UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y - 0.005f * curStackCount, 0.1f);
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.logPlaceSFX);
+                HapticPatterns.PlayConstant(0.15f, 0f, 0.1f);
             }
                 
             GameObject fx = Instantiate(GameManager.instance.stackFX, go.transform.position, Quaternion.identity);
@@ -308,6 +328,10 @@ public class PlayerCollisions : MonoBehaviour
         this.enabled = false;
         transform.DORotateQuaternion(Quaternion.Euler(0, 180, 0), 0.2f);
         //rotate
+        UIManager.instance.panelGameWin.SetActive(true);
+        UIManager.instance.txtCoinGained.text = (100 * bonusCoinX).ToString();
+        GameManager.instance.totalCoin += (100 * bonusCoinX);
+        PlayerPrefs.SetInt(GameManager.instance.totalCoinKey, GameManager.instance.totalCoin);
 
     }
 }
