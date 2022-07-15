@@ -1737,6 +1737,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerType: 1
   stackPos: {fileID: 840601707650274691}
+  crown: {fileID: 840601708845528728}
   curStackCount: 0
   newStackCount: 0
   grounded: 0

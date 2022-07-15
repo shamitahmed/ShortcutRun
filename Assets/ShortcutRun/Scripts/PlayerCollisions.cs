@@ -14,6 +14,7 @@ public class PlayerCollisions : MonoBehaviour
 {
     public PlayerType playerType;
     public Transform stackPos;
+    public GameObject crown;
     public int curStackCount;
     public int newStackCount;
 
@@ -30,11 +31,13 @@ public class PlayerCollisions : MonoBehaviour
     public GameObject windFx;
     public GameObject lastPodOn;
     public int bonusCoinX;
+    public int randStackColor;
 
     // Start is called before the first frame update
     void Start()
     {
-        //stackPos.transform.GetChild(0).DORotateQuaternion(Quaternion.EulerAngles(2,0,0),0.2f).SetLoops(-1,LoopType.Yoyo);
+        crown.SetActive(false);
+        randStackColor = Random.Range(0, GameManager.instance.podMats.Length);
     }
     private void Update()
     {
@@ -99,6 +102,10 @@ public class PlayerCollisions : MonoBehaviour
                 //    UIManager.instance.txtLogCount.DOFade(1f, 0.1f);
                     
                 //});
+            }
+            if (playerType == PlayerType.bot)
+            {
+                go.transform.GetComponent<MeshRenderer>().material = GameManager.instance.podMats[randStackColor];
             }
         }
         if (other.gameObject.CompareTag("water") && !GameManager.instance.dead)
@@ -297,7 +304,10 @@ public class PlayerCollisions : MonoBehaviour
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.logPlaceSFX);
                 HapticPatterns.PlayConstant(0.125f, 0f, 0.1f);
             }
-                
+            if (playerType == PlayerType.bot)
+            {
+                go.transform.GetComponent<MeshRenderer>().material = GameManager.instance.podMats[randStackColor];
+            }
             GameObject fx = Instantiate(GameManager.instance.stackFX, go.transform.position, Quaternion.identity);
             Destroy(fx, 1f);
             
