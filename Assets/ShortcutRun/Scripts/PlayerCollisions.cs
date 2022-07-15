@@ -321,7 +321,9 @@ public class PlayerCollisions : MonoBehaviour
     void StopPlayerAtEnd()
     {
         windFx.SetActive(false);
-        GetComponent<PlayerMovement>().enabled = false;
+        GetComponent<PlayerMovement>().anim.SetBool("jump", false);
+        GetComponent<PlayerMovement>().anim.SetBool("dance", true);
+        //GetComponent<PlayerMovement>().enabled = false;
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
