@@ -55,7 +55,7 @@ public class PlayerCollisions : MonoBehaviour
                 logSpawnDelay += Time.deltaTime;
         }
         if (grounded)
-            transform.GetComponent<PlayerMovement>().speed = 6;
+            transform.GetComponent<PlayerMovementTwo>().speed = 6;
 
     }
 
@@ -65,7 +65,7 @@ public class PlayerCollisions : MonoBehaviour
         {
             Destroy(other.gameObject);
             curStackCount++;
-            transform.gameObject.GetComponent<PlayerMovement>().anim.SetBool("carry", true);
+            transform.gameObject.GetComponent<PlayerMovementTwo>().anim.SetBool("carry", true);
 
             GameObject go = Instantiate(GameManager.instance.logStackObj, new Vector3(stackPos.transform.position.x, stackPos.transform.position.y + 0.15f * curStackCount, stackPos.transform.position.z), Quaternion.identity);
             go.transform.parent = stackPos.transform.GetChild(0);
@@ -207,9 +207,9 @@ public class PlayerCollisions : MonoBehaviour
         {
             grounded = true;
             jumping = false;
-            transform.GetComponent<PlayerMovement>().anim.SetBool("jump", false);
+            transform.GetComponent<PlayerMovementTwo>().anim.SetBool("jump", false);
             canPlaceLog = false;
-            transform.GetComponent<PlayerMovement>().speed = 6;
+            transform.GetComponent<PlayerMovementTwo>().speed = 6;
             bouncing = false;
             windFx.SetActive(false);
             if (playerType == PlayerType.human)
@@ -217,7 +217,7 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (other.gameObject.CompareTag("logPlaced"))
         {
-            transform.GetComponent<PlayerMovement>().speed = 11;
+            transform.GetComponent<PlayerMovementTwo>().speed = 11;
             windFx.SetActive(true);
         }
         if (other.gameObject.CompareTag("endpod") && !GameManager.instance.dead && !endPodReached)
@@ -258,7 +258,7 @@ public class PlayerCollisions : MonoBehaviour
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.jumpSFX);
             transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2,LoopType.Yoyo);
             jumping = true;
-            transform.GetComponent<PlayerMovement>().anim.SetBool("jump", true);
+            transform.GetComponent<PlayerMovementTwo>().anim.SetBool("jump", true);
             grounded = false;
             windFx.SetActive(false);
         }
@@ -305,9 +305,9 @@ public class PlayerCollisions : MonoBehaviour
                 transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2, LoopType.Yoyo);
                 jumping = true;
                 grounded = false;
-                transform.GetComponent<PlayerMovement>().anim.SetBool("carry", false);
-                transform.GetComponent<PlayerMovement>().anim.SetBool("jump", true);
-                transform.GetComponent<PlayerMovement>().speed = 6;
+                transform.GetComponent<PlayerMovementTwo>().anim.SetBool("carry", false);
+                transform.GetComponent<PlayerMovementTwo>().anim.SetBool("jump", true);
+                transform.GetComponent<PlayerMovementTwo>().speed = 6;
             }
         }
     }
@@ -321,8 +321,8 @@ public class PlayerCollisions : MonoBehaviour
     void StopPlayerAtEnd()
     {
         windFx.SetActive(false);
-        GetComponent<PlayerMovement>().anim.SetBool("jump", false);
-        GetComponent<PlayerMovement>().anim.SetBool("dance", true);
+        GetComponent<PlayerMovementTwo>().anim.SetBool("jump", false);
+        GetComponent<PlayerMovementTwo>().anim.SetBool("dance", true);
         //GetComponent<PlayerMovement>().enabled = false;
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Rigidbody>().isKinematic = true;

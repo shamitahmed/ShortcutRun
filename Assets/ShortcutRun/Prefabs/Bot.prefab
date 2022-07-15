@@ -1614,6 +1614,7 @@ GameObject:
   - component: {fileID: 840601708596569260}
   - component: {fileID: 840601708596569257}
   - component: {fileID: 840601708596569259}
+  - component: {fileID: 901502353}
   m_Layer: 0
   m_Name: Bot
   m_TagString: Untagged
@@ -1667,6 +1668,8 @@ MonoBehaviour:
   botDeath: 0
   botID: 0
   windFx: {fileID: 2117977084297763088}
+  lastPodOn: {fileID: 0}
+  bonusCoinX: 0
 --- !u!65 &840601708596569263
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1729,6 +1732,25 @@ MonoBehaviour:
   rotationSmoothing: 0.5
   targetDirection: {x: 0, y: 0, z: 0}
   maxDragDistance: 100
+  move: 0
+  rb: {fileID: 0}
+  anim: {fileID: 0}
+--- !u!114 &901502353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840601708596569261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf7c41569e05ba4092c868980c108df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeedModifier: 0.1
+  speed: 6
+  runSpeed: 8
+  movemenetSmoothing: 0.5
   move: 0
   rb: {fileID: 0}
   anim: {fileID: 0}

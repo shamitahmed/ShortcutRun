@@ -28,7 +28,7 @@ namespace PathCreation.Examples
             {
                 distanceTravelled += speed * Time.deltaTime;
                 transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
-                GetComponent<PlayerMovement>().anim.SetBool("run", true);
+                GetComponent<PlayerMovementTwo>().anim.SetBool("run", true);
                 transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
                 transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
             }
