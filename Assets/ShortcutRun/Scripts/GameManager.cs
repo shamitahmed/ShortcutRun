@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
             GameObject go = Instantiate(endPlatform, new Vector3(finishLine.transform.position.x + Random.Range(-10,10), endPlatform.transform.position.y, finishLine.transform.position.z + 10f * (i + 1)), Quaternion.identity);
             go.GetComponent<MeshRenderer>().material = podMats[Random.Range(0, podMats.Length)];
             go.transform.GetChild(0).GetComponent<TextMeshPro>().text = "X" + (i + 1).ToString();
-
+            go.GetComponent<EndPod>().endPodID = i + 1;
             //punch scale
             go.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 0.2f);
 

@@ -118,7 +118,7 @@ public class PlayerCollisions : MonoBehaviour
                 {
                     transform.DOMove(new Vector3(lastPodOn.transform.position.x, lastPodOn.transform.position.y + 1.2f, lastPodOn.transform.position.z), 0.5f).OnComplete(()=>
                     {
-                        bonusCoinX = System.Convert.ToInt32(lastPodOn.transform.GetChild(0).GetComponent<TextMesh>().text.Substring(1, 1));
+                        bonusCoinX = lastPodOn.GetComponent<EndPod>().endPodID;
                         StopPlayerAtEnd();
                         
                     });
@@ -229,7 +229,7 @@ public class PlayerCollisions : MonoBehaviour
                 endPodReached = true;
                 transform.DOMove(new Vector3(lastPodOn.transform.position.x, lastPodOn.transform.position.y + 1.2f, lastPodOn.transform.position.z), 0.5f).OnComplete(() =>
                 {
-                    bonusCoinX = System.Convert.ToInt32(lastPodOn.transform.GetChild(0).GetComponent<TextMesh>().text.Substring(0, 1));
+                    bonusCoinX = lastPodOn.GetComponent<EndPod>().endPodID;
                     StopPlayerAtEnd();
                     //transform.DOMoveY(lastPodOn.transform.position.y + 0.3f, 0.1f);
                 });
@@ -332,6 +332,7 @@ public class PlayerCollisions : MonoBehaviour
         UIManager.instance.txtCoinGained.text = (100 * bonusCoinX).ToString();
         GameManager.instance.totalCoin += (100 * bonusCoinX);
         PlayerPrefs.SetInt(GameManager.instance.totalCoinKey, GameManager.instance.totalCoin);
-
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.winSFX);
+        HapticPatterns.PlayConstant(0.4f, 0f, 0.2f);
     }
 }
