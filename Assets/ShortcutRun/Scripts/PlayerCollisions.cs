@@ -36,6 +36,8 @@ public class PlayerCollisions : MonoBehaviour
 
     public float distFromEnd;
     public int rank;
+    public bool cannotBuild;
+
 
     private void Awake()
     {
@@ -191,20 +193,75 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (other.gameObject.CompareTag("finish") && !GameManager.instance.dead)
         {
-            if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount > 0)
+            if (playerType == PlayerType.human)
+              BotManager.instance.playerFinalPos = BotManager.instance.playerPos;
+            if (playerType == PlayerType.bot)
             {
-                BotManager.instance.playerFinalPos = BotManager.instance.playerPos;
-                StartCoroutine(GameManager.instance.EndBonusPods());
-            }
-            else if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount <= 0)
-            {
-                BotManager.instance.playerFinalPos = BotManager.instance.playerPos;
-                transform.DOMove(new Vector3(GameManager.instance.finishLine.transform.position.x, GameManager.instance.finishLine.transform.position.y + 1f, GameManager.instance.finishLine.transform.position.z), 0.5f).OnComplete(() =>
+                transform.gameObject.GetComponent<BoxCollider>().enabled = false;
+                if(rank == 1)
                 {
-                    bonusCoinX = 1;
-                    StopPlayerAtEnd();
-                }); ;
+                    ThrowStack();
+                    transform.DOMove(new Vector3(GameManager.instance.finishLinePositions[rank - 1].transform.position.x, GameManager.instance.finishLinePositions[rank - 1].transform.position.y + 1f, GameManager.instance.finishLinePositions[rank - 1].transform.position.z), 0.5f).OnComplete(() =>
+                    {
+                        GetComponent<PlayerMovementTwo>().anim.SetBool("dance", true);
+                    }); ;
+                    
+                    //throw + dance
+                    
+                }
+                if(rank > 1)
+                {
+                    ThrowStack();
+                    transform.DOMove(new Vector3(GameManager.instance.finishLinePositions[rank - 1].transform.position.x, GameManager.instance.finishLinePositions[rank - 1].transform.position.y + 1f, GameManager.instance.finishLinePositions[rank - 1].transform.position.z), 0.5f).OnComplete(() =>
+                    {
+                        GetComponent<PlayerMovementTwo>().anim.SetBool("sad", true);
+                    }); ;
+                    
+                    //throw + sad
+                   
+                }
+
             }
+
+            if (BotManager.instance.playerFinalPos == 1)
+            {
+                if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount > 0)
+                {
+                    
+                    StartCoroutine(GameManager.instance.EndBonusPods());
+                }
+                else if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount <= 0)
+                {
+                    transform.DOMove(new Vector3(GameManager.instance.finishLine.transform.position.x, GameManager.instance.finishLine.transform.position.y + 1f, GameManager.instance.finishLine.transform.position.z), 0.5f).OnComplete(() =>
+                    {
+                        bonusCoinX = 1;
+                        StopPlayerAtEnd();
+                    }); ;
+                }
+            }
+            if (BotManager.instance.playerFinalPos > 1)
+            {
+                if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount > 0)
+                {
+                    cannotBuild = true;
+                    //throw stack then sad
+                    transform.DOMove(new Vector3(GameManager.instance.finishLine.transform.position.x, GameManager.instance.finishLine.transform.position.y + 1f, GameManager.instance.finishLine.transform.position.z), 0.5f).OnComplete(() =>
+                    {
+                        ThrowStack();
+                        bonusCoinX = 1;
+                        StopPlayerAtEnd();
+                    }); ;
+                }
+                else if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount <= 0)
+                {
+                    transform.DOMove(new Vector3(GameManager.instance.finishLine.transform.position.x, GameManager.instance.finishLine.transform.position.y + 1f, GameManager.instance.finishLine.transform.position.z), 0.5f).OnComplete(() =>
+                    {
+                        bonusCoinX = 1;
+                        StopPlayerAtEnd();
+                    }); ;
+                }
+            }
+
             GameManager.instance.finishCrossed = true;
             GameObject fx = Instantiate(GameManager.instance.confettiFX, other.transform.position, Quaternion.identity);
             Destroy(fx, 2f);
@@ -297,7 +354,7 @@ public class PlayerCollisions : MonoBehaviour
     }
     public void PlaceLog()
     {
-        if (curStackCount > 0)
+        if (curStackCount > 0 && !cannotBuild)
         {
             GameObject go = Instantiate(GameManager.instance.logPlaceObj, new Vector3(transform.position.x, 0f, transform.position.z + 0.3f), transform.rotation);
             go.transform.DOMoveY(go.transform.position.y - 0.2f, 0.05f);
@@ -368,6 +425,7 @@ public class PlayerCollisions : MonoBehaviour
         Camera.main.transform.DOLookAt(this.transform.position, 0.1f);
         transform.DORotateQuaternion(Quaternion.Euler(0, 180, 0), 0.2f);
         //rotate
+        UIManager.instance.panelGame.SetActive(false);
         UIManager.instance.panelGameWin.SetActive(true);
         UIManager.instance.txtCoinGained.text = (100 * bonusCoinX).ToString();
         GameManager.instance.totalCoin += (100 * bonusCoinX);
@@ -386,12 +444,27 @@ public class PlayerCollisions : MonoBehaviour
         if (playerType == PlayerType.bot)
         {
             BotManager.instance.leaderboardDist[botID + 1] = distFromEnd;
-            rank = BotManager.instance.leaderboardDist.IndexOf(BotManager.instance.bots[botID + 1].distFromEnd) + 1;
+            rank = BotManager.instance.leaderboardDist.IndexOf(BotManager.instance.bots[botID + 1].distFromEnd);
         }
 
         if (rank == 1)
             crown.SetActive(true);
         else
             crown.SetActive(false);
+    }
+    public void ThrowStack()
+    {
+        //stackPos.transform.parent = null;
+        //stackPos.transform.DOMoveZ(stackPos.transform.position.z + 100,5f);
+        //for (int i = 0; i < curStackCount; i++)
+        //{
+        //    stackPos.GetChild(0).GetChild(i).gameObject.AddComponent<Rigidbody>();
+        //    stackPos.GetChild(0).GetChild(i).gameObject.AddComponent<BoxCollider>();
+        //    stackPos.GetChild(0).GetChild(i).parent = null;
+
+        //}
+        stackPos.gameObject.SetActive(false);
+
+        curStackCount = 0;
     }
 }

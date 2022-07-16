@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public GameObject endPlatform;
     public GameObject finishLine;
     public Material[] podMats;
+    public Transform[] finishLinePositions;
 
 
     private void Awake()
