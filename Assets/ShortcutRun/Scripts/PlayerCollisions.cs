@@ -38,6 +38,9 @@ public class PlayerCollisions : MonoBehaviour
     public int rank;
     public bool cannotBuild;
     Camera cam;
+    public int brickPlaced;
+    public GameObject boostFX;
+
 
     private void Awake()
     {
@@ -139,9 +142,10 @@ public class PlayerCollisions : MonoBehaviour
             {
                 //move to last end pod player was on, back to finishline if none 
                 if(lastPodOn != null)
-                {
+                {                  
                     transform.DOMove(new Vector3(lastPodOn.transform.position.x, lastPodOn.transform.position.y + 1.2f, lastPodOn.transform.position.z), 0.5f).OnComplete(()=>
                     {
+                        Camera.main.transform.parent = null;
                         bonusCoinX = lastPodOn.GetComponent<EndPod>().endPodID;
                         StopPlayerAtEnd();
                         
@@ -190,10 +194,12 @@ public class PlayerCollisions : MonoBehaviour
             bouncing = true;
             jumping = false;
             windFx.SetActive(false);
+           
             if (playerType == PlayerType.human)
             {
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.bounceSFX);
                 HapticPatterns.PlayConstant(0.2f, 0f, 0.15f);
+                boostFX.SetActive(false);
             }              
         }
         if (other.gameObject.CompareTag("finish") && !GameManager.instance.dead)
@@ -279,11 +285,20 @@ public class PlayerCollisions : MonoBehaviour
         {
             water = false;
             windFx.SetActive(false);
+            //boostFX.SetActive(false);
         }
             
     }
     private void OnCollisionEnter(Collision other)
     {
+        if (other.gameObject.CompareTag("bot"))
+        {
+            other.transform.GetComponent<PathCreation.Examples.PathFollower>().enabled = false;
+            other.transform.DOMoveY(other.transform.position.y + 5, 3f);
+            other.transform.DOMoveZ(other.transform.position.z + 15, 3f);
+            //kill bot
+
+        }
         if (other.gameObject.CompareTag("ground"))
         {
             grounded = true;
@@ -293,10 +308,12 @@ public class PlayerCollisions : MonoBehaviour
             transform.GetComponent<PlayerMovementTwo>().speed = 7;
             bouncing = false;
             windFx.SetActive(false);
+            
             if (playerType == PlayerType.human)
             {
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.landSFX);
                 HapticPatterns.PlayConstant(0.2f, 0f, 0.15f);
+                boostFX.SetActive(false);
             }
               
         }
@@ -347,27 +364,25 @@ public class PlayerCollisions : MonoBehaviour
             }
 
         }
-        if (other.gameObject.CompareTag("bot"))
-        {
-            other.transform.GetComponent<PathCreation.Examples.PathFollower>().enabled = false;
-            other.transform.DOMoveY(other.transform.position.y + 5, 3f);
-            other.transform.DOMoveZ(other.transform.position.z + 15, 3f);
-            //kill bot
 
-        }
     }
     private void OnCollisionExit(Collision other)
     {
         if (other.gameObject.CompareTag("ground") && curStackCount <= 0 && !GameManager.instance.dead)
         {
             if (playerType == PlayerType.human)
+            {
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.jumpSFX);
+                boostFX.SetActive(false);
+            }
+               
             transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2,LoopType.Yoyo);
             jumping = true;
             bouncing = false;
             transform.GetComponent<PlayerMovementTwo>().anim.SetBool("jump", true);
             grounded = false;
             windFx.SetActive(false);
+            
         }
         if (other.gameObject.CompareTag("ground") && curStackCount > 0)
         {
@@ -397,6 +412,13 @@ public class PlayerCollisions : MonoBehaviour
                 //UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y - 0.005f * curStackCount, 0.1f);
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.logPlaceSFX);
                 HapticPatterns.PlayConstant(0.125f, 0f, 0.1f);
+                brickPlaced++;
+                if(brickPlaced >= 8)
+                {
+                    boostFX.SetActive(true);
+                    transform.GetComponent<PlayerMovementTwo>().speed = 13;
+                    brickPlaced = 0;
+                }
             }
             if (playerType == PlayerType.bot)
             {
@@ -411,8 +433,12 @@ public class PlayerCollisions : MonoBehaviour
             if(curStackCount <= 0)
             {
                 if (playerType == PlayerType.human)
+                {
                     SoundManager.Instance.PlaySFX(SoundManager.Instance.jumpSFX);
-                windFx.SetActive(false);
+                    boostFX.SetActive(false);
+                }
+                    
+                windFx.SetActive(false);               
                 transform.DOMoveY(transform.position.y + 7f, 0.75f).SetLoops(2, LoopType.Yoyo);
                 jumping = true;
                 bouncing = false;
@@ -436,6 +462,8 @@ public class PlayerCollisions : MonoBehaviour
         UIManager.instance.txtFinalPos.text = BotManager.instance.playerFinalPos.ToString() + sufix;
 
         windFx.SetActive(false);
+        if(playerType==PlayerType.human)
+            boostFX.SetActive(false);
         GetComponent<PlayerMovementTwo>().anim.SetBool("jump", false);
         if(BotManager.instance.playerFinalPos > 1)
             GetComponent<PlayerMovementTwo>().anim.SetBool("sad", true);

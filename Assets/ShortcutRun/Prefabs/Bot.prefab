@@ -1746,6 +1746,7 @@ MonoBehaviour:
   water: 0
   endPodReached: 0
   canPlaceLog: 0
+  climbing: 0
   logSpawnDelay: 0
   logs: []
   botDeath: 0
@@ -1753,6 +1754,10 @@ MonoBehaviour:
   windFx: {fileID: 2117977084297763088}
   lastPodOn: {fileID: 0}
   bonusCoinX: 0
+  randStackColor: 0
+  distFromEnd: 0
+  rank: 0
+  cannotBuild: 0
 --- !u!65 &840601708596569263
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1816,6 +1821,7 @@ MonoBehaviour:
   move: 0
   rb: {fileID: 0}
   anim: {fileID: 0}
+  canRotate: 0
 --- !u!1 &840601708627620088
 GameObject:
   m_ObjectHideFlags: 0
