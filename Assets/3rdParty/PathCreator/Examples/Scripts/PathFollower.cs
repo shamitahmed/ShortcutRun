@@ -47,7 +47,7 @@ namespace PathCreation.Examples
                 transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
                 transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
             }
-            if (playTime >= 3.75f && pathCreator != null && GameManager.instance.gameStart && !GetComponent<PlayerCollisions>().botDeath)
+            if (playTime >= 5f && pathCreator != null && GameManager.instance.gameStart && !GetComponent<PlayerCollisions>().botDeath)
             {
                 switchedX = true;
                 distanceTravelled += speed * Time.deltaTime;

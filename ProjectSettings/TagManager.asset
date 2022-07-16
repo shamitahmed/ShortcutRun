@@ -12,6 +12,7 @@ TagManager:
   - finish
   - endpod
   - logPlacedOld
+  - bot
   layers:
   - Default
   - TransparentFX

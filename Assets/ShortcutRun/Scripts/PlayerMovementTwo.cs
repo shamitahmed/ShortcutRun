@@ -17,6 +17,7 @@ public class PlayerMovementTwo : MonoBehaviour
     public Rigidbody rb;
     public Animator anim;
     public bool canRotate;
+    PlayerCollisions player;
 
     PlayerType type;
     // Start is called before the first frame update
@@ -25,6 +26,7 @@ public class PlayerMovementTwo : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         type = GetComponent<PlayerCollisions>().playerType;
+        player = GetComponent<PlayerCollisions>();
     }
     private void FixedUpdate()
     {
@@ -52,6 +54,27 @@ public class PlayerMovementTwo : MonoBehaviour
             if (touch.phase == TouchPhase.Moved)
             {
                 rotationY = Quaternion.Euler(0f, touch.deltaPosition.x * rotateSpeedModifier, 0f);
+                //if (touch.deltaPosition.x < 0)
+                //{
+                //    player.stackPos.GetComponent<Animator>().SetBool("R", false);
+                //    player.stackPos.GetComponent<Animator>().SetBool("L", true);
+
+                //}
+                    
+                //if (touch.deltaPosition.x > 0)
+                //{
+                //    player.stackPos.GetComponent<Animator>().SetBool("L", false);
+                //    player.stackPos.GetComponent<Animator>().SetBool("R", true);
+
+                //}
+                   
+                //if(touch.deltaPosition.x == 0)
+                //{
+                //    player.stackPos.GetComponent<Animator>().SetBool("L", false);
+                //    player.stackPos.GetComponent<Animator>().SetBool("R", false);
+                //    player.stackPos.rotation = Quaternion.Euler(0f, 0f, 0f);
+                //}
+
                 transform.rotation = rotationY * transform.rotation;
             }
         }

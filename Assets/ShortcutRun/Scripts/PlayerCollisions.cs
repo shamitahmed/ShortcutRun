@@ -37,7 +37,7 @@ public class PlayerCollisions : MonoBehaviour
     public float distFromEnd;
     public int rank;
     public bool cannotBuild;
-
+    Camera cam;
 
     private void Awake()
     {
@@ -46,6 +46,7 @@ public class PlayerCollisions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cam = Camera.main;
         crown.SetActive(false);
         randStackColor = Random.Range(0, GameManager.instance.podMats.Length);
         
@@ -72,6 +73,9 @@ public class PlayerCollisions : MonoBehaviour
             transform.GetComponent<PlayerMovementTwo>().speed = 7;
         if(GameManager.instance.gameStart)
             GetDistanceFromFinish();
+
+        if (GameManager.instance.gameStart && playerType == PlayerType.human)
+            CamPosAdjust();
 
     }
 
@@ -104,7 +108,7 @@ public class PlayerCollisions : MonoBehaviour
                     UIManager.instance.txtLogCount.transform.DOScale(new Vector3(-1f, 1f, 1f), 0.05f);
                 });
 
-                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.1f * curStackCount, 0.1f).SetDelay(2).OnComplete(() =>
+                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.001f, 0.1f).SetDelay(2).OnComplete(() =>
                 {
                     newStackCount = 0;
                     UIManager.instance.txtLogCount.transform.gameObject.SetActive(false);
@@ -168,6 +172,7 @@ public class PlayerCollisions : MonoBehaviour
                 if (playerType == PlayerType.bot)
                 {
                     botDeath = true;
+                    Destroy(this.gameObject);
                 }
                 GameObject fx = Instantiate(GameManager.instance.splashFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), GameManager.instance.splashFX.transform.rotation);
                 Destroy(fx, 1f);
@@ -342,6 +347,14 @@ public class PlayerCollisions : MonoBehaviour
             }
 
         }
+        if (other.gameObject.CompareTag("bot"))
+        {
+            other.transform.GetComponent<PathCreation.Examples.PathFollower>().enabled = false;
+            other.transform.DOMoveY(other.transform.position.y + 5, 3f);
+            other.transform.DOMoveZ(other.transform.position.z + 15, 3f);
+            //kill bot
+
+        }
     }
     private void OnCollisionExit(Collision other)
     {
@@ -483,5 +496,24 @@ public class PlayerCollisions : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         other.tag = "logPlacedOld";
+    }
+    void CamPosAdjust()
+    {
+        if (GameManager.instance.player.GetComponent<PlayerCollisions>().curStackCount >= 10)
+        {
+            cam.transform.position = new Vector3(cam.transform.position.x, Mathf.Lerp(cam.transform.position.y, 11, 0.25f), cam.transform.position.z);
+        }
+        if (GameManager.instance.player.GetComponent<PlayerCollisions>().curStackCount >= 20)
+        {
+            cam.transform.position = new Vector3(cam.transform.position.x, Mathf.Lerp(cam.transform.position.y, 12, 0.25f), cam.transform.position.z);
+        }
+        if (GameManager.instance.player.GetComponent<PlayerCollisions>().curStackCount >= 40)
+        {
+            cam.transform.position = new Vector3(cam.transform.position.x, Mathf.Lerp(cam.transform.position.y, 13, 0.25f), cam.transform.position.z);
+        }
+        if (GameManager.instance.player.GetComponent<PlayerCollisions>().curStackCount < 10)
+        {
+            cam.transform.position = new Vector3(cam.transform.position.x, Mathf.Lerp(cam.transform.position.y, 10, 0.25f), cam.transform.position.z);
+        }
     }
 }
