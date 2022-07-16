@@ -370,8 +370,19 @@ public class PlayerCollisions : MonoBehaviour
     {
         distFromEnd = Vector3.Distance(transform.position, GameManager.instance.finishLine.transform.position);
         if (playerType == PlayerType.human)
+        {
             BotManager.instance.leaderboardDist[0] = distFromEnd;
-        else if (playerType == PlayerType.bot)
+            rank = BotManager.instance.playerPos;
+        }         
+        if (playerType == PlayerType.bot)
+        {
             BotManager.instance.leaderboardDist[botID + 1] = distFromEnd;
+            rank = BotManager.instance.leaderboardDist.IndexOf(BotManager.instance.bots[botID + 1].distFromEnd) + 1;
+        }
+
+        if (rank == 1)
+            crown.SetActive(true);
+        else
+            crown.SetActive(false);
     }
 }

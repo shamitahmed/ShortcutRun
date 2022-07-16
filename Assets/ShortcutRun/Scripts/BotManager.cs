@@ -7,6 +7,7 @@ public class BotManager : MonoBehaviour
     public static BotManager instance;
     public List<PlayerCollisions> bots;
     public List<float> leaderboardDist;
+    public int playerPos;
 
     private void Awake()
     {
@@ -23,11 +24,10 @@ public class BotManager : MonoBehaviour
     private void Update()
     {
         leaderboardDist.Sort();
-
-        int position = leaderboardDist.IndexOf(bots[0].distFromEnd) + 1;
-        string sufix = position == 1 ? "st" : position == 2 ? "nd" : position == 3 ? "rd" : "th";
-
-        UIManager.instance.txtPlayerPosition.text = position + sufix;
+        //player pos
+        playerPos = leaderboardDist.IndexOf(bots[0].distFromEnd) + 1;
+        string sufix = playerPos == 1 ? "st" : playerPos == 2 ? "nd" : playerPos == 3 ? "rd" : "th";
+        UIManager.instance.txtPlayerPosition.text = playerPos + sufix;
 
     }
 
