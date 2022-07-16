@@ -24,6 +24,7 @@ public class PlayerCollisions : MonoBehaviour
     public bool water;
     public bool endPodReached;
     public bool canPlaceLog;
+    public bool climbing;
     public float logSpawnDelay;
     public List<GameObject> logs;
     public bool botDeath;
@@ -118,7 +119,7 @@ public class PlayerCollisions : MonoBehaviour
                 go.transform.GetComponent<MeshRenderer>().material = GameManager.instance.podMats[randStackColor];
             }
         }
-        if (other.gameObject.CompareTag("water") && !GameManager.instance.dead)
+        if (other.gameObject.CompareTag("water") && !GameManager.instance.dead && !climbing)
         {
             bouncing = false;
             water = true;
@@ -192,11 +193,12 @@ public class PlayerCollisions : MonoBehaviour
         {
             if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount > 0)
             {
+                BotManager.instance.playerFinalPos = BotManager.instance.playerPos;
                 StartCoroutine(GameManager.instance.EndBonusPods());
             }
             else if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount <= 0)
             {
-
+                BotManager.instance.playerFinalPos = BotManager.instance.playerPos;
                 transform.DOMove(new Vector3(GameManager.instance.finishLine.transform.position.x, GameManager.instance.finishLine.transform.position.y + 1f, GameManager.instance.finishLine.transform.position.z), 0.5f).OnComplete(() =>
                 {
                     bonusCoinX = 1;
@@ -347,16 +349,23 @@ public class PlayerCollisions : MonoBehaviour
         SoundManager.Instance.PlaySFX(SoundManager.Instance.loseSFX);
     }
     void StopPlayerAtEnd()
-    {
+    {    
+        string sufix = BotManager.instance.playerFinalPos == 1 ? "st" : BotManager.instance.playerFinalPos == 2 ? "nd" : BotManager.instance.playerFinalPos == 3 ? "rd" : "th";
+        UIManager.instance.txtFinalPos.text = BotManager.instance.playerFinalPos.ToString() + sufix;
+
         windFx.SetActive(false);
         GetComponent<PlayerMovementTwo>().anim.SetBool("jump", false);
-        GetComponent<PlayerMovementTwo>().anim.SetBool("dance", true);
+        if(BotManager.instance.playerFinalPos > 1)
+            GetComponent<PlayerMovementTwo>().anim.SetBool("sad", true);
+        if (BotManager.instance.playerFinalPos == 1)
+            GetComponent<PlayerMovementTwo>().anim.SetBool("dance", true);
         //GetComponent<PlayerMovement>().enabled = false;
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         this.enabled = false;
         Camera.main.transform.parent = null;
+        Camera.main.transform.DOLookAt(this.transform.position, 0.1f);
         transform.DORotateQuaternion(Quaternion.Euler(0, 180, 0), 0.2f);
         //rotate
         UIManager.instance.panelGameWin.SetActive(true);

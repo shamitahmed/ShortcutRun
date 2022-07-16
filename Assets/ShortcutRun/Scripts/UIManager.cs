@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI txtTotalCoin;
     public TextMeshProUGUI txtCoinGained;
     public GameObject panelGameWin;
+    public TextMeshProUGUI txtFinalPos;
     public Button btnNext;
 
     public GameObject onScreenKeyboard;

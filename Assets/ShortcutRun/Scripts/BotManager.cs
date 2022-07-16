@@ -8,6 +8,8 @@ public class BotManager : MonoBehaviour
     public List<PlayerCollisions> bots;
     public List<float> leaderboardDist;
     public int playerPos;
+    public int playerFinalPos;
+
 
     private void Awake()
     {
