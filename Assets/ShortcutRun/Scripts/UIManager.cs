@@ -66,7 +66,10 @@ public class UIManager : MonoBehaviour
         panelStart.SetActive(false);
         panelGame.SetActive(true);
         HapticPatterns.PlayConstant(0.3f, 0f, 0.2f);
-        Camera.main.transform.DOMove(gameCamPos.position,1.5f);
+        Camera.main.transform.DOMove(gameCamPos.position,1.5f).OnComplete(()=>
+        {
+            GameManager.instance.player.GetComponent<PlayerMovementTwo>().canRotate = true;
+        });
         StartCoroutine(StartRoutine());
     }
     public void BtnRetryCallback()

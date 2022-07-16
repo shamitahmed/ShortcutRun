@@ -16,6 +16,8 @@ public class PlayerMovementTwo : MonoBehaviour
     public bool move;
     public Rigidbody rb;
     public Animator anim;
+    public bool canRotate;
+
     PlayerType type;
     // Start is called before the first frame update
     void Start()
@@ -28,7 +30,7 @@ public class PlayerMovementTwo : MonoBehaviour
     {
         //if (!GameManager.instance.gameStart) return;
 
-        if (type == PlayerType.human && !GetComponent<PlayerCollisions>().endPodReached)
+        if (type == PlayerType.human && !GetComponent<PlayerCollisions>().endPodReached && canRotate)
             HandlePlayerInput();
 
         if (!GameManager.instance.dead && GameManager.instance.gameStart && type == PlayerType.human && !GetComponent<PlayerCollisions>().endPodReached)
