@@ -23,7 +23,7 @@ public class ClimbCollision : MonoBehaviour
         {
             transform.root.GetComponent<PlayerCollisions>().climbing = true;
             transform.root.GetComponent<PlayerMovementTwo>().anim.SetBool("climb", true);
-            Debug.LogError("yes");
+            
             //climb
             transform.root.DOMoveY(1f,0.1f).OnComplete(()=>
             {

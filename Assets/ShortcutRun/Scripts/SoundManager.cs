@@ -22,7 +22,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip logPlaceSFX;
     public AudioClip jumpSFX;
     public AudioClip landSFX;
-
+    public AudioClip beepSFX;
 
     private void Awake()
     {

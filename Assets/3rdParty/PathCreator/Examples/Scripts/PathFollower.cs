@@ -10,6 +10,8 @@ namespace PathCreation.Examples
         public EndOfPathInstruction endOfPathInstruction;
         public float speed = 5;
         float distanceTravelled;
+        float playTime;
+        bool switchX;
 
         void Start() {
             if (pathCreator != null)
@@ -24,7 +26,8 @@ namespace PathCreation.Examples
 
         void Update()
         {
-            if (pathCreator != null && GameManager.instance.gameStart && !GetComponent<PlayerCollisions>().botDeath)
+            if (!GameManager.instance.gameStart) return;
+            if (!switchX && pathCreator != null && GameManager.instance.gameStart && !GetComponent<PlayerCollisions>().botDeath)
             {
                 distanceTravelled += speed * Time.deltaTime;
                 transform.position = new Vector3(transform.position.x, pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction).y, pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction).z);
@@ -32,6 +35,18 @@ namespace PathCreation.Examples
                 transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
                 transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
             }
+
+            playTime += Time.deltaTime;
+            if (playTime >= 3 && pathCreator != null && GameManager.instance.gameStart && !GetComponent<PlayerCollisions>().botDeath)
+            {
+                switchX = true;
+                distanceTravelled += speed * Time.deltaTime;
+                transform.position = new Vector3(Mathf.Lerp(transform.position.x, pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction).x, 0.5f * Time.deltaTime), pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction).y, pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction).z);
+                GetComponent<PlayerMovementTwo>().anim.SetBool("run", true);
+                transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+                transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+            }
+            
         }
 
         // If the path changes during the game, update the distance travelled so that the follower's position on the new path
@@ -52,6 +67,12 @@ namespace PathCreation.Examples
                 transform.position = pathCreator.path.GetPointAtDistance(16f);         
                 distanceTravelled = 16f;
                 transform.position = new Vector3(-1.65f, transform.position.y, transform.position.z);
+            }
+            else if (GetComponent<PlayerCollisions>().botID == 2)
+            {
+                transform.position = pathCreator.path.GetPointAtDistance(20f);
+                distanceTravelled = 20f;
+                transform.position = new Vector3(2.86f, transform.position.y, transform.position.z);
             }
         }
     }

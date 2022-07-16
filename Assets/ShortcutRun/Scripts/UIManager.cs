@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
     public Button btnPlayername;
 
     public TextMeshProUGUI txtPlayerPosition;
+    public Transform gameCamPos;
 
     private void Awake()
     {
@@ -65,7 +66,7 @@ public class UIManager : MonoBehaviour
         panelStart.SetActive(false);
         panelGame.SetActive(true);
         HapticPatterns.PlayConstant(0.3f, 0f, 0.2f);
-
+        Camera.main.transform.DOMove(gameCamPos.position,1.5f);
         StartCoroutine(StartRoutine());
     }
     public void BtnRetryCallback()
@@ -82,12 +83,15 @@ public class UIManager : MonoBehaviour
         txtStartCount.gameObject.SetActive(true);
         txtStartCount.text = "3";
         txtStartCount.transform.DOPunchScale(new Vector3(0.4f,0.4f,0.4f),0.2f);
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.beepSFX);
         yield return new WaitForSeconds(0.7f);
         txtStartCount.text = "2";
         txtStartCount.transform.DOPunchScale(new Vector3(0.4f, 0.4f, 0.4f), 0.2f);
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.beepSFX);
         yield return new WaitForSeconds(0.7f);
         txtStartCount.text = "1";
         txtStartCount.transform.DOPunchScale(new Vector3(0.4f, 0.4f, 0.4f), 0.2f);
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.beepSFX);
         yield return new WaitForSeconds(0.7f);
         txtStartCount.text = "GO!";
         txtStartCount.transform.DOPunchScale(new Vector3(0.6f, 0.6f, 0.6f), 0.2f);
