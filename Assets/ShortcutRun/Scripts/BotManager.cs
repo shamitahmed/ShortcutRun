@@ -24,10 +24,10 @@ public class BotManager : MonoBehaviour
     {
         leaderboardDist.Sort();
 
-        //int position = leaderboard.IndexOf(bots[0].distFromEnd) + 1;
-        //string sufix = position == 1 ? "st" : position == 2 ? "nd" : position == 3 ? "rd" : "th";
+        int position = leaderboardDist.IndexOf(bots[0].distFromEnd) + 1;
+        string sufix = position == 1 ? "st" : position == 2 ? "nd" : position == 3 ? "rd" : "th";
 
-        //positionText.text = position + sufix;
+        UIManager.instance.txtPlayerPosition.text = position + sufix;
 
     }
 

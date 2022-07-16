@@ -51,7 +51,7 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (jumping)
         {
-            transform.position += transform.forward * Time.deltaTime * 4f;
+            transform.position += transform.forward * Time.deltaTime * 3f;
         }
         if (bouncing)
         {
