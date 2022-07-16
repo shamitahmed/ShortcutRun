@@ -300,6 +300,17 @@ public class PlayerCollisions : MonoBehaviour
             transform.GetComponent<PlayerMovementTwo>().speed = 11;
             windFx.SetActive(true);
         }
+        if (other.gameObject.CompareTag("logPlacedOld"))
+        {
+            transform.GetComponent<PlayerMovementTwo>().speed = 11;
+            windFx.SetActive(true);
+
+            grounded = true;
+            jumping = false;
+            transform.GetComponent<PlayerMovementTwo>().anim.SetBool("jump", false);
+            canPlaceLog = false;
+            bouncing = false;
+        }
         if (other.gameObject.CompareTag("endpod") && !GameManager.instance.dead && !endPodReached)
         {
             if(curStackCount <= 0)
@@ -360,6 +371,7 @@ public class PlayerCollisions : MonoBehaviour
             go.transform.DOMoveY(go.transform.position.y - 0.2f, 0.05f);
             //go.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
             go.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 0.2f);
+            StartCoroutine(LogTagRoutine(go));
             Destroy(logs[curStackCount - 1]);
             logs.RemoveAt(curStackCount - 1);
             curStackCount--;
@@ -466,5 +478,10 @@ public class PlayerCollisions : MonoBehaviour
         stackPos.gameObject.SetActive(false);
 
         curStackCount = 0;
+    }
+    IEnumerator LogTagRoutine(GameObject other)
+    {
+        yield return new WaitForSeconds(1f);
+        other.tag = "logPlacedOld";
     }
 }
