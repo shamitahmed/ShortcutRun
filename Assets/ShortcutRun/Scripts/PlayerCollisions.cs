@@ -148,7 +148,9 @@ public class PlayerCollisions : MonoBehaviour
                         Camera.main.transform.parent = null;
                         bonusCoinX = lastPodOn.GetComponent<EndPod>().endPodID;
                         StopPlayerAtEnd();
-                        
+                        lastPodOn.transform.GetChild(1).gameObject.SetActive(true);
+                        lastPodOn.transform.GetChild(1).GetComponent<ParticleSystem>().loop = true;
+                        lastPodOn.transform.GetChild(1).GetComponent<ParticleSystem>().startColor = lastPodOn.GetComponent<MeshRenderer>().material.color;
                     });
                     
                 }
@@ -351,6 +353,7 @@ public class PlayerCollisions : MonoBehaviour
                 GameObject fx = Instantiate(GameManager.instance.confettiFX, other.transform.position, Quaternion.identity);
                 Destroy(fx, 2f);
                 other.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+                other.gameObject.transform.GetChild(1).GetComponent<ParticleSystem>().loop = true;
                 other.gameObject.transform.GetChild(1).GetComponent<ParticleSystem>().startColor= other.gameObject.GetComponent<MeshRenderer>().material.color;
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.winPodSFX);
             }
