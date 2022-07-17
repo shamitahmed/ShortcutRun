@@ -40,7 +40,7 @@ public class PlayerCollisions : MonoBehaviour
     Camera cam;
     public int brickPlaced;
     public GameObject boostFX;
-
+    public bool finishCrossed;
 
     private void Awake()
     {
@@ -74,7 +74,7 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (grounded)
             transform.GetComponent<PlayerMovementTwo>().speed = 7;
-        if(GameManager.instance.gameStart)
+        if(GameManager.instance.gameStart && !finishCrossed)
             GetDistanceFromFinish();
 
         if (GameManager.instance.gameStart && playerType == PlayerType.human)
@@ -210,6 +210,7 @@ public class PlayerCollisions : MonoBehaviour
               BotManager.instance.playerFinalPos = BotManager.instance.playerPos;
             if (playerType == PlayerType.bot)
             {
+                finishCrossed = true;
                 transform.gameObject.GetComponent<BoxCollider>().enabled = false;
                 if(rank == 1)
                 {
@@ -415,7 +416,7 @@ public class PlayerCollisions : MonoBehaviour
             {
                 //UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y - 0.005f * curStackCount, 0.1f);
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.logPlaceSFX);
-                HapticPatterns.PlayConstant(0.125f, 0f, 0.1f);
+                HapticPatterns.PlayConstant(0.1f, 0f, 0.1f);
                 brickPlaced++;
                 if(brickPlaced >= 8)
                 {
@@ -473,7 +474,7 @@ public class PlayerCollisions : MonoBehaviour
             GetComponent<PlayerMovementTwo>().anim.SetBool("sad", true);
         if (BotManager.instance.playerFinalPos == 1)
             GetComponent<PlayerMovementTwo>().anim.SetBool("dance", true);
-        //GetComponent<PlayerMovement>().enabled = false;
+        GetComponent<PlayerMovementTwo>().enabled = false;
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;

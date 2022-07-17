@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     }
     public IEnumerator EndBonusPods()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 20; i++)
         {
             //spawn
             yield return new WaitForSeconds(0.2f);
