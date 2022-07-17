@@ -24,6 +24,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip landSFX;
     public AudioClip beepSFX;
     public AudioClip footstepSFX;
+    public AudioClip winPodSFX;
 
     private void Awake()
     {

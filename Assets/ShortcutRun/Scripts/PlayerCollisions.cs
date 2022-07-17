@@ -238,7 +238,7 @@ public class PlayerCollisions : MonoBehaviour
             {
                 if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount > 0)
                 {
-                    
+                    SoundManager.Instance.PlaySFX(SoundManager.Instance.winSFX);
                     StartCoroutine(GameManager.instance.EndBonusPods());
                 }
                 else if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount <= 0)
@@ -352,7 +352,7 @@ public class PlayerCollisions : MonoBehaviour
                 Destroy(fx, 2f);
                 other.gameObject.transform.GetChild(1).gameObject.SetActive(true);
                 other.gameObject.transform.GetChild(1).GetComponent<ParticleSystem>().startColor= other.gameObject.GetComponent<MeshRenderer>().material.color;
-
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.winPodSFX);
             }
             else
             {
@@ -361,6 +361,7 @@ public class PlayerCollisions : MonoBehaviour
                 HapticPatterns.PlayConstant(0.2f, 0f, 0.15f);
                 other.gameObject.transform.GetChild(1).gameObject.SetActive(true);
                 other.gameObject.transform.GetChild(1).GetComponent<ParticleSystem>().startColor = other.gameObject.GetComponent<MeshRenderer>().material.color;
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.winPodSFX);
             }
 
         }
