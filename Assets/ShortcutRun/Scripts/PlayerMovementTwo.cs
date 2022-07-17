@@ -18,6 +18,7 @@ public class PlayerMovementTwo : MonoBehaviour
     public Animator anim;
     public bool canRotate;
     PlayerCollisions player;
+    float footstepDelay;
 
     PlayerType type;
     // Start is called before the first frame update
@@ -78,5 +79,17 @@ public class PlayerMovementTwo : MonoBehaviour
                 transform.rotation = rotationY * transform.rotation;
             }
         }
+        if(type == PlayerType.human)
+        {
+            footstepDelay += Time.deltaTime;
+            if (footstepDelay >= 0.4f)
+            {
+                if (!player.jumping && !player.bouncing && !GameManager.instance.dead)
+                    SoundManager.Instance.PlaySFX(SoundManager.Instance.footstepSFX);
+                footstepDelay = 0;
+            }
+        }
+        
+
     }
 }
