@@ -41,6 +41,7 @@ public class PlayerCollisions : MonoBehaviour
     public int brickPlaced;
     public GameObject boostFX;
     public bool finishCrossed;
+    public bool playerEndStopped;
 
     private void Awake()
     {
@@ -462,34 +463,38 @@ public class PlayerCollisions : MonoBehaviour
         SoundManager.Instance.PlaySFX(SoundManager.Instance.loseSFX);
     }
     void StopPlayerAtEnd()
-    {    
-        string sufix = BotManager.instance.playerFinalPos == 1 ? "st" : BotManager.instance.playerFinalPos == 2 ? "nd" : BotManager.instance.playerFinalPos == 3 ? "rd" : "th";
-        UIManager.instance.txtFinalPos.text = BotManager.instance.playerFinalPos.ToString() + sufix;
+    {
+        if (!playerEndStopped)
+        {
+            string sufix = BotManager.instance.playerFinalPos == 1 ? "st" : BotManager.instance.playerFinalPos == 2 ? "nd" : BotManager.instance.playerFinalPos == 3 ? "rd" : "th";
+            UIManager.instance.txtFinalPos.text = BotManager.instance.playerFinalPos.ToString() + sufix;
 
-        windFx.SetActive(false);
-        if(playerType==PlayerType.human)
-            boostFX.SetActive(false);
-        GetComponent<PlayerMovementTwo>().anim.SetBool("jump", false);
-        if(BotManager.instance.playerFinalPos > 1)
-            GetComponent<PlayerMovementTwo>().anim.SetBool("sad", true);
-        if (BotManager.instance.playerFinalPos == 1)
-            GetComponent<PlayerMovementTwo>().anim.SetBool("dance", true);
-        GetComponent<PlayerMovementTwo>().enabled = false;
-        GetComponent<Rigidbody>().useGravity = false;
-        GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        this.enabled = false;
-        Camera.main.transform.parent = null;
-        Camera.main.transform.DOLookAt(this.transform.position, 0.1f);
-        transform.DORotateQuaternion(Quaternion.Euler(0, 180, 0), 0.2f);
-        //rotate
-        UIManager.instance.panelGame.SetActive(false);
-        UIManager.instance.panelGameWin.SetActive(true);
-        UIManager.instance.txtCoinGained.text = (100 * bonusCoinX).ToString();
-        GameManager.instance.totalCoin += (100 * bonusCoinX);
-        PlayerPrefs.SetInt(GameManager.instance.totalCoinKey, GameManager.instance.totalCoin);
-        SoundManager.Instance.PlaySFX(SoundManager.Instance.winSFX);
-        HapticPatterns.PlayConstant(0.4f, 0f, 0.2f);
+            windFx.SetActive(false);
+            if (playerType == PlayerType.human)
+                boostFX.SetActive(false);
+            GetComponent<PlayerMovementTwo>().anim.SetBool("jump", false);
+            if (BotManager.instance.playerFinalPos > 1)
+                GetComponent<PlayerMovementTwo>().anim.SetBool("sad", true);
+            if (BotManager.instance.playerFinalPos == 1)
+                GetComponent<PlayerMovementTwo>().anim.SetBool("dance", true);
+            GetComponent<PlayerMovementTwo>().enabled = false;
+            GetComponent<Rigidbody>().useGravity = false;
+            GetComponent<Rigidbody>().isKinematic = true;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            this.enabled = false;
+            Camera.main.transform.parent = null;
+            Camera.main.transform.DOLookAt(this.transform.position, 0.1f);
+            transform.DORotateQuaternion(Quaternion.Euler(0, 180, 0), 0.2f);
+            //rotate
+            UIManager.instance.panelGame.SetActive(false);
+            UIManager.instance.panelGameWin.SetActive(true);
+            UIManager.instance.txtCoinGained.text = (100 * bonusCoinX).ToString();
+            GameManager.instance.totalCoin += (100 * bonusCoinX);
+            PlayerPrefs.SetInt(GameManager.instance.totalCoinKey, GameManager.instance.totalCoin);
+            SoundManager.Instance.PlaySFX(SoundManager.Instance.winSFX);
+            HapticPatterns.PlayConstant(0.4f, 0f, 0.2f);
+            playerEndStopped = true;
+        }
     }
     public void GetDistanceFromFinish()
     {
