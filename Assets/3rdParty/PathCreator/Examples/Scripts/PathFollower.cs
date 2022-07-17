@@ -27,7 +27,7 @@ namespace PathCreation.Examples
 
             }
             rand = Random.Range(0, 3);
-            randTransitionTime = Random.Range(2, 7);
+            randTransitionTime = Random.Range(1, 7);
         }
 
         void Update()
@@ -95,6 +95,12 @@ namespace PathCreation.Examples
                 transform.position = pathCreator.path.GetPointAtDistance(21f);
                 distanceTravelled = 21f;
                 transform.position = new Vector3(-1.65f, transform.position.y, transform.position.z);
+            }
+            else if (GetComponent<PlayerCollisions>().botID == 5)
+            {
+                transform.position = pathCreator.path.GetPointAtDistance(28f);
+                distanceTravelled = 28f;
+                transform.position = new Vector3(1.56f, transform.position.y, transform.position.z);
             }
         }
     }

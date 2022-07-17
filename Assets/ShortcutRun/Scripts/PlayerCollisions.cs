@@ -111,7 +111,7 @@ public class PlayerCollisions : MonoBehaviour
                     UIManager.instance.txtLogCount.transform.DOScale(new Vector3(-1f, 1f, 1f), 0.05f);
                 });
 
-                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y + 0.001f, 0.1f).SetDelay(2).OnComplete(() =>
+                UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y, 0.1f).SetDelay(2).OnComplete(() =>
                 {
                     newStackCount = 0;
                     UIManager.instance.txtLogCount.transform.gameObject.SetActive(false);
@@ -416,7 +416,7 @@ public class PlayerCollisions : MonoBehaviour
             {
                 //UIManager.instance.txtLogCount.transform.DOMoveY(UIManager.instance.txtLogCount.transform.position.y - 0.005f * curStackCount, 0.1f);
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.logPlaceSFX);
-                HapticPatterns.PlayConstant(0.1f, 0f, 0.1f);
+                HapticPatterns.PlayConstant(0.07f, 0f, 0.1f);
                 brickPlaced++;
                 if(brickPlaced >= 8)
                 {
