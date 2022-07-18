@@ -259,21 +259,29 @@ public class PlayerCollisions : MonoBehaviour
                 if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount > 0)
                 {
                     cannotBuild = true;
+                    GetComponent<PlayerMovementTwo>().enabled = false;
+                    GetComponent<Rigidbody>().useGravity = false;
+                    GetComponent<Rigidbody>().isKinematic = true;
+                    GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                     //throw stack then sad
                     transform.DOMove(new Vector3(GameManager.instance.finishLine.transform.position.x, GameManager.instance.finishLine.transform.position.y + 1f, GameManager.instance.finishLine.transform.position.z), 0.5f).OnComplete(() =>
                     {
                         ThrowStack();
                         bonusCoinX = 1;
                         StopPlayerAtEnd();
-                    }); ;
+                    });
                 }
                 else if (playerType == PlayerType.human && !GameManager.instance.finishCrossed && curStackCount <= 0)
                 {
+                    GetComponent<PlayerMovementTwo>().enabled = false;
+                    GetComponent<Rigidbody>().useGravity = false;
+                    GetComponent<Rigidbody>().isKinematic = true;
+                    GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                     transform.DOMove(new Vector3(GameManager.instance.finishLine.transform.position.x, GameManager.instance.finishLine.transform.position.y + 1f, GameManager.instance.finishLine.transform.position.z), 0.5f).OnComplete(() =>
                     {
                         bonusCoinX = 1;
                         StopPlayerAtEnd();
-                    }); ;
+                    });
                 }
             }
 

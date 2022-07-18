@@ -25,12 +25,14 @@ public class BotManager : MonoBehaviour
     }
     private void Update()
     {
-        leaderboardDist.Sort();
-        //player pos
-        playerPos = leaderboardDist.IndexOf(bots[0].distFromEnd) + 1;
-        string sufix = playerPos == 1 ? "st" : playerPos == 2 ? "nd" : playerPos == 3 ? "rd" : "th";
-        UIManager.instance.txtPlayerPosition.text = playerPos + sufix;
-
+        if (GameManager.instance.gameStart && !GameManager.instance.finishCrossed)
+        {
+            leaderboardDist.Sort();
+            //player pos
+            playerPos = leaderboardDist.IndexOf(bots[0].distFromEnd) + 1;
+            string sufix = playerPos == 1 ? "st" : playerPos == 2 ? "nd" : playerPos == 3 ? "rd" : "th";
+            UIManager.instance.txtPlayerPosition.text = playerPos + sufix;
+        }
     }
 
 }
